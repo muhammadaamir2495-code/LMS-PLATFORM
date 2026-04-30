@@ -16,6 +16,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import CourseListing from './pages/CourseListing';
 import CourseDetail from './pages/CourseDetail';
+import About from './pages/About';
 
 // Dashboards
 import StudentDashboard from './pages/StudentDashboard';
@@ -34,6 +35,7 @@ const AnimatedRoutes = () => {
         <Route path="/catalog" element={<CourseListing />} />
         <Route path="/courses" element={<CourseListing />} />
         <Route path="/courses/:id" element={<CourseDetail />} />
+        <Route path="/about" element={<About />} />
 
         {/* 🔐 Auth Routes (Static) */}
         <Route path="/login" element={<Login />} />
@@ -86,4 +88,16 @@ const AnimatedRoutes = () => {
 const App = () => {
   return (
     <Router>
-  
+      <div className="d-flex flex-column min-vh-100 bg-app">
+        <Toaster position="top-right" />
+        <Navbar />
+        <main className="flex-grow-1">
+          <AnimatedRoutes />
+        </main>
+        <Footer />
+      </div>
+    </Router>
+  );
+};
+
+export default App;

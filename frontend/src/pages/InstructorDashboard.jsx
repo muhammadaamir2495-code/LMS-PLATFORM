@@ -59,18 +59,18 @@ const InstructorDashboard = () => {
     try {
       if (modalMode === 'create') await api.post('/courses', data);
       else await api.put(`/courses/${currentCourse._id}`, data);
-      toast.success('Sync Successful');
+      toast.success('Course Saved');
       setShow(false);
       fetchCourses();
     } catch (err) {
-      toast.error('Operation Error');
+      toast.error('Error saving course');
     } finally { setFormLoading(false); }
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Confirm Deletion Sequence?')) {
-      try { await api.delete(`/courses/${id}`); toast.success('Module Removed'); fetchCourses(); }
-      catch (err) { toast.error('Access Denied'); }
+    if (window.confirm('Are you sure you want to delete this course?')) {
+      try { await api.delete(`/courses/${id}`); toast.success('Course deleted'); fetchCourses(); }
+      catch (err) { toast.error('Error deleting course'); }
     }
   };
 
@@ -82,49 +82,49 @@ const InstructorDashboard = () => {
       <header className="mb-12 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-6">
         <div>
           <div className="d-inline-flex align-items-center bg-secondary bg-opacity-10 text-secondary px-3 py-1 rounded-full mb-4 fw-bold text-xs tracking-wider text-uppercase">
-            Instructor Node • Authoritative Access
+            Instructor Account • Dashboard
           </div>
-          <h1 className="mb-2 fw-black display-4 text-white">Architect Terminal</h1>
-          <p className="text-muted fs-5">Manage your modules and track global student ingestion.</p>
+          <h1 className="mb-2 fw-black display-4 text-white">Instructor Panel</h1>
+          <p className="text-muted fs-5">Manage your courses and track your student growth.</p>
         </div>
         <button className="btn-premium px-8" onClick={() => handleShow('create')}>
-          <i className="bi bi-plus-lg me-2"></i> INITIALIZE MODULE
+          <i className="bi bi-plus-lg me-2"></i> CREATE NEW COURSE
         </button>
       </header>
 
       <Row className="mb-12 g-6">
         <Col md={4}>
           <StatCard 
-            label="Published Modules" 
+            label="My Courses" 
             value={courses.length} 
             icon="bi-layers" 
-            subLabel="Total assets in catalog"
+            subLabel="Total published courses"
           />
         </Col>
         <Col md={4}>
           <StatCard 
-            label="Total Ingestion" 
+            label="Total Students" 
             value={totalEnrollments} 
             icon="bi-people" 
             color="#ec4899"
-            subLabel="Total student enrollments"
+            subLabel="Total enrolled students"
           />
         </Col>
         <Col md={4}>
           <StatCard 
-            label="Revenue Projection" 
+            label="Total Revenue" 
             value={`$${totalRevenue.toLocaleString()}`} 
             icon="bi-currency-dollar" 
             color="#10b981"
             trend={12}
-            subLabel="Estimated earnings (Gross)"
+            subLabel="Estimated gross earnings"
           />
         </Col>
       </Row>
 
       <section>
         <div className="d-flex align-items-center justify-content-between mb-8">
-          <h3 className="mb-0 text-white fw-bold">Active Catalog</h3>
+          <h3 className="mb-0 text-white fw-bold">Your Courses</h3>
         </div>
 
         {loading ? (
@@ -134,9 +134,9 @@ const InstructorDashboard = () => {
         ) : courses.length === 0 ? (
           <EmptyState 
             icon="bi-pencil-square"
-            title="Empty Repository"
-            description="No active modules detected in your local authoring node. Start by creating your first educational sequence."
-            actionText="Launch First Sequence"
+            title="No Courses Yet"
+            description="You haven't created any courses yet. Start sharing your knowledge today."
+            actionText="Create First Course"
             onAction={() => handleShow('create')}
           />
         ) : (
@@ -164,7 +164,7 @@ const InstructorDashboard = () => {
                     <div className="text-dim text-xs fw-bold text-uppercase tracking-widest mb-3">{course.category}</div>
                     <h5 className="mb-8 fw-bold text-white fs-5 leading-tight">{course.title}</h5>
                     <div className="mt-auto pt-6 border-glass d-flex gap-2">
-                      <button className="btn btn-ghost border-glass text-white text-xs fw-bold w-full py-2.5" onClick={() => handleShow('edit', course)}>RECONFIGURE</button>
+                      <button className="btn btn-ghost border-glass text-white text-xs fw-bold w-full py-2.5" onClick={() => handleShow('edit', course)}>EDIT</button>
                       <button className="btn btn-ghost py-2.5 text-danger border-glass px-4" onClick={() => handleDelete(course._id)}><i className="bi bi-trash"></i></button>
                     </div>
                   </div>
@@ -177,14 +177,14 @@ const InstructorDashboard = () => {
 
       <Modal show={show} onHide={() => setShow(false)} centered size="lg" className="premium-modal">
         <Modal.Header closeButton className="border-0 px-8 pt-8 bg-app text-white">
-          <Modal.Title className="fw-black text-white">{modalMode === 'create' ? 'INITIALIZE NEW SEQUENCE' : 'RECONFIGURE MODULE'}</Modal.Title>
+          <Modal.Title className="fw-black text-white">{modalMode === 'create' ? 'CREATE NEW COURSE' : 'EDIT COURSE'}</Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleSubmit} className="bg-app text-white">
           <Modal.Body className="px-8 py-4">
             <Row className="g-6">
               <Col md={7}>
                 <Form.Group className="mb-6">
-                  <Form.Label className="text-xs fw-bold text-uppercase text-dim mb-2 tracking-widest">Identity Designation</Form.Label>
+                  <Form.Label className="text-xs fw-bold text-uppercase text-dim mb-2 tracking-widest">Course Title</Form.Label>
                   <Form.Control className="form-control bg-white-5 border-glass text-white py-2.5" type="text" name="title" value={formData.title} onChange={handleInputChange} required />
                 </Form.Group>
                 <div className="d-flex gap-6 mb-6">
@@ -193,7 +193,7 @@ const InstructorDashboard = () => {
                     <Form.Control className="form-control bg-white-5 border-glass text-white py-2.5" type="number" name="price" value={formData.price} onChange={handleInputChange} required />
                   </Form.Group>
                   <Form.Group className="flex-grow-1">
-                    <Form.Label className="text-xs fw-bold text-uppercase text-dim mb-2 tracking-widest">Category Node</Form.Label>
+                    <Form.Label className="text-xs fw-bold text-uppercase text-dim mb-2 tracking-widest">Category</Form.Label>
                     <Form.Select className="form-control bg-white-5 border-glass text-white py-2.5" name="category" value={formData.category} onChange={handleInputChange}>
                       {categories.map(c => <option key={c} value={c}>{c}</option>)}
                     </Form.Select>
@@ -202,7 +202,7 @@ const InstructorDashboard = () => {
               </Col>
               <Col md={5}>
                 <Form.Group className="mb-0">
-                  <Form.Label className="text-xs fw-bold text-uppercase text-dim mb-2 tracking-widest">Visual Asset</Form.Label>
+                  <Form.Label className="text-xs fw-bold text-uppercase text-dim mb-2 tracking-widest">Thumbnail Image</Form.Label>
                   <div className="border border-dashed border-glass rounded-xl p-8 text-center bg-white-5 cursor-pointer hover-bg-glass transition-all" onClick={() => document.getElementById('file-up').click()}>
                     <i className="bi bi-cloud-arrow-up fs-1 text-primary"></i>
                     <p className="text-xs text-dim mb-0 mt-3 fw-bold tracking-widest text-uppercase">Upload Thumbnail</p>
@@ -212,13 +212,13 @@ const InstructorDashboard = () => {
               </Col>
             </Row>
             <Form.Group className="mt-6">
-              <Form.Label className="text-xs fw-bold text-uppercase text-dim mb-2 tracking-widest">Module Documentation</Form.Label>
+              <Form.Label className="text-xs fw-bold text-uppercase text-dim mb-2 tracking-widest">Course Description</Form.Label>
               <Form.Control className="form-control bg-white-5 border-glass text-white" as="textarea" rows={4} name="description" value={formData.description} onChange={handleInputChange} required />
             </Form.Group>
           </Modal.Body>
           <Modal.Footer className="border-0 px-8 pb-8 pt-4 bg-app">
-            <button type="button" className="btn btn-ghost text-dim fw-bold text-xs tracking-widest" onClick={() => setShow(false)}>ABORT</button>
-            <button type="submit" className="btn-premium px-12 py-2.5 text-xs fw-bold" disabled={formLoading}>{formLoading ? 'SYNCHRONIZING...' : 'SAVE SEQUENCE'}</button>
+            <button type="button" className="btn btn-ghost text-dim fw-bold text-xs tracking-widest" onClick={() => setShow(false)}>CANCEL</button>
+            <button type="submit" className="btn-premium px-12 py-2.5 text-xs fw-bold" disabled={formLoading}>{formLoading ? 'SAVING...' : 'SAVE COURSE'}</button>
           </Modal.Footer>
         </Form>
       </Modal>

@@ -1,12 +1,15 @@
 const express = require('express');
-const { getUsers, getUser, deleteUser, createUser, updateUser, getAdminStats } = require('../controllers/userController');
+const { getUsers, getUser, deleteUser, createUser, updateUser, getAdminStats, updateProfile } = require('../controllers/userController');
 
 const { protect, authorize } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
-// Admin only routes
+// Protected but non-admin routes
 router.use(protect);
+router.put('/profile', updateProfile);
+
+// Admin only routes
 router.use(authorize('admin'));
 
 router.route('/')

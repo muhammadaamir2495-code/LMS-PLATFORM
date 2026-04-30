@@ -65,7 +65,7 @@ const Login = () => {
                 Learn.<br />Build.<br />Scale.
               </h1>
               <p className="text-muted fs-5 leading-relaxed" style={{ maxWidth: '340px' }}>
-                Rejoin the global network of architects building the next generation of intelligence.
+                Welcome back. Log in to access your learning dashboard and continue building your future.
               </p>
             </motion.div>
           </div>
@@ -82,7 +82,7 @@ const Login = () => {
           >
             <div className="text-center mb-12">
               <h2 className="text-white fw-black mb-2 display-6 tracking-tight">Welcome Back</h2>
-              <p className="text-muted small fw-medium tracking-wide">Enter credentials to unlock your terminal.</p>
+              <p className="text-muted small fw-medium tracking-wide">Log in to your account to continue.</p>
             </div>
 
             <motion.div 
@@ -91,7 +91,7 @@ const Login = () => {
             >
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-6">
-                  <Form.Label className="text-xs fw-bold text-uppercase text-dim mb-2 tracking-widest">Email Address</Form.Label>
+                  <Form.Label className="text-xs fw-bold text-uppercase text-dim mb-2 tracking-widest">Email</Form.Label>
                   <div className="position-relative">
                     <i className="bi bi-envelope position-absolute top-50 start-0 translate-middle-y ms-4 text-dim"></i>
                     <Form.Control 
@@ -109,8 +109,8 @@ const Login = () => {
 
                 <Form.Group className="mb-8">
                   <div className="d-flex justify-content-between align-items-center mb-2">
-                    <Form.Label className="text-xs fw-bold text-uppercase text-dim mb-0 tracking-widest">Access Key</Form.Label>
-                    <Link to="#" className="text-primary text-xs fw-bold text-decoration-none opacity-80">FORGOT?</Link>
+                    <Form.Label className="text-xs fw-bold text-uppercase text-dim mb-0 tracking-widest">Password</Form.Label>
+                    <Link to="#" className="text-primary text-xs fw-bold text-decoration-none opacity-80">FORGOT PASSWORD?</Link>
                   </div>
                   <div className="position-relative">
                     <i className="bi bi-lock position-absolute top-50 start-0 translate-middle-y ms-4 text-dim"></i>
@@ -137,7 +137,7 @@ const Login = () => {
                     name="rememberMe"
                     checked={formData.rememberMe}
                     onChange={handleChange}
-                    label={<span className="text-xs text-muted fw-bold tracking-wide cursor-pointer ms-2">Persistent Session</span>}
+                    label={<span className="text-xs text-muted fw-bold tracking-wide cursor-pointer ms-2">Remember Me</span>}
                   />
                 </div>
 
@@ -146,12 +146,12 @@ const Login = () => {
                   className="btn-premium w-full py-3.5 mb-8 text-xs fw-bold tracking-widest shadow-glow"
                   disabled={loading}
                 >
-                  {loading ? 'AUTHENTICATING...' : 'INITIALIZE ACCESS'}
+                  {loading ? 'LOGGING IN...' : 'LOG IN'}
                 </button>
                 
                 <div className="text-center">
-                  <span className="text-dim text-xs fw-bold tracking-wide">NO ACCOUNT? </span>
-                  <Link to="/register" className="text-primary text-xs fw-bold text-decoration-none hover-white">CREATE IDENTITY</Link>
+                  <span className="text-dim text-xs fw-bold tracking-wide">NEW HERE? </span>
+                  <Link to="/register" className="text-primary text-xs fw-bold text-decoration-none hover-white">GET STARTED</Link>
                 </div>
               </Form>
             </motion.div>

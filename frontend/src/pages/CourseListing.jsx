@@ -50,11 +50,11 @@ const CourseListing = () => {
       <Container>
         <header className="mb-16 text-center">
           <div className="d-inline-flex align-items-center bg-primary bg-opacity-10 text-primary px-3 py-1 rounded-full mb-6 fw-bold text-xs tracking-wider text-uppercase">
-            Global Learning Network
+            Learn from the Best
           </div>
-          <h1 className="mb-6 display-3 fw-black text-white tracking-tighter" style={{ letterSpacing: '-0.05em' }}>Explore the Catalog.</h1>
+          <h1 className="mb-6 display-3 fw-black text-white tracking-tighter" style={{ letterSpacing: '-0.05em' }}>Explore the Library.</h1>
           <p className="text-muted mx-auto fs-5" style={{ maxWidth: '640px' }}>
-            Choose from over 500+ premium modules designed for the modern architect. Expert-led, industry-vetted, and results-driven.
+            Choose from hundreds of professional courses. Learn from industry experts and build your skills effortlessly.
           </p>
         </header>
 
@@ -66,7 +66,7 @@ const CourseListing = () => {
                 <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-4 text-dim"></i>
                 <Form.Control
                   type="text"
-                  placeholder="Search for intelligence assets..."
+                  placeholder="Search courses..."
                   className="form-control bg-white-5 border-glass py-3 ps-12 text-white text-xs"
                   value={searchTerm}
                   onChange={(e) => { setSearchTerm(e.target.value); setPage(1); }}
@@ -94,8 +94,8 @@ const CourseListing = () => {
                 onChange={(e) => { setSort(e.target.value); setPage(1); }}
               >
                 <option value="latest">Newest First</option>
-                <option value="price-asc">Valuation: Low to High</option>
-                <option value="price-desc">Valuation: High to Low</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
               </Form.Select>
             </Col>
           </Row>
@@ -111,7 +111,7 @@ const CourseListing = () => {
           <>
             <div className="d-flex justify-content-between align-items-center mb-10">
               <h3 className="mb-0 fw-bold text-white fs-4">
-                {pagination.totalItems || courses.length} Module{courses.length !== 1 ? 's' : ''} Detected
+                {pagination.totalItems || courses.length} Courses Found
               </h3>
             </div>
             
@@ -134,8 +134,8 @@ const CourseListing = () => {
                   <Col xs={12}>
                     <EmptyState 
                       icon="bi-search"
-                      title="No Modules Found"
-                      description="The current filters yielded zero results in our neural catalog. Try adjusting your search parameters."
+                      title="No Results Found"
+                      description="We couldn't find any courses matching your search. Try adjusting your filters."
                       actionText="Reset Filters"
                       onAction={() => { setSearchTerm(''); setCategory('All'); }}
                     />
@@ -156,4 +156,28 @@ const CourseListing = () => {
                   </button>
                   <button 
                     className="btn btn-ghost border-glass text-white px-8 py-2.5 text-xs fw-bold tracking-widest hover-bg-glass" 
-                    disab
+                    disabled={page === pagination.totalPages} 
+                    onClick={() => setPage(p => p + 1)}
+                  >
+                    NEXT
+                  </button>
+                </div>
+              </div>
+            )}
+          </>
+        )}
+      </Container>
+      
+      <style dangerouslySetInnerHTML={{ __html: `
+        .bg-white-5 { background: rgba(255, 255, 255, 0.05); }
+        .border-glass { border: 1px solid var(--border-glass); }
+        .ps-12 { padding-left: 3rem !important; }
+        .g-10 { --bs-gutter-x: 2.5rem; --bs-gutter-y: 2.5rem; }
+        .hover-bg-glass:hover { background: rgba(255, 255, 255, 0.08); }
+        .rounded-2xl { border-radius: 20px; }
+      `}} />
+    </div>
+  );
+};
+
+export default CourseListing;

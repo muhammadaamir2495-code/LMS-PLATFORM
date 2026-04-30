@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Row, Col, motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Row, Col } from 'react-bootstrap';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../context/AuthContext';
 import api from '../services/api';
@@ -30,7 +31,7 @@ const AdminDashboard = () => {
         setUsers(usersRes.data.data);
         setCourses(coursesRes.data.data);
       } catch (err) {
-        toast.error('Terminal Sync Failure');
+        toast.error('Could not load data');
       } finally {
         setLoading(false);
       }
@@ -43,7 +44,7 @@ const AdminDashboard = () => {
     if (typedConfirm !== 'DELETE') return;
     try {
       await api.delete(`/admin/users/${id}`);
-      toast.success('Subject Removed');
+      toast.success('User Deleted');
       setUsers(users.filter(u => u._id !== id));
     } catch (err) {
       toast.error('Authorization Denied');
@@ -57,48 +58,48 @@ const AdminDashboard = () => {
     <DashboardLayout>
       <header className="mb-12">
         <div className="d-inline-flex align-items-center bg-primary bg-opacity-10 text-primary px-3 py-1 rounded-full mb-4 fw-bold text-xs tracking-wider text-uppercase border-glass">
-          Master Node • Global Intelligence
+          Admin Account • System Control
         </div>
-        <h1 className="mb-2 fw-black display-4 text-white">Platform Oversight</h1>
-        <p className="text-muted fs-5">Real-time telemetry and management of the NexusLMS ecosystem.</p>
+        <h1 className="mb-2 fw-black display-4 text-white">Admin Panel</h1>
+        <p className="text-muted fs-5">Monitor and manage all users and courses on the platform.</p>
       </header>
 
       <Row className="mb-12 g-6">
         <Col md={3}>
           <StatCard 
-            label="Platform Citizens" 
+            label="Total Users" 
             value={stats.totalUsers} 
             icon="bi-people" 
             trend={12} 
-            subLabel="Total active accounts"
+            subLabel="All registered accounts"
           />
         </Col>
         <Col md={3}>
           <StatCard 
-            label="Active Nodes" 
+            label="Students" 
             value={stats.totalStudents} 
             icon="bi-mortarboard" 
             color="#6366f1"
-            subLabel="Student Enrollment Hub" 
+            subLabel="Active student accounts" 
           />
         </Col>
         <Col md={3}>
           <StatCard 
-            label="Architect Core" 
+            label="Teachers" 
             value={stats.totalInstructors} 
             icon="bi-shield-check" 
             color="#ec4899"
-            subLabel="Licensed Instructors" 
+            subLabel="Registered instructors" 
           />
         </Col>
         <Col md={3}>
           <StatCard 
-            label="Neural Assets" 
+            label="Courses" 
             value={stats.totalCourses} 
             icon="bi-layers" 
             color="#10b981"
             trend={24} 
-            subLabel="Published Modules" 
+            subLabel="Total published courses" 
           />
         </Col>
       </Row>
@@ -110,13 +111,13 @@ const AdminDashboard = () => {
               onClick={() => setActiveTab('users')} 
               className={`btn btn-xs fw-bold px-4 py-2.5 transition-all ${activeTab === 'users' ? 'btn-premium' : 'btn-ghost text-muted'}`}
             >
-              IDENTITY REGISTRY
+              USER LIST
             </button>
             <button 
               onClick={() => setActiveTab('courses')} 
               className={`btn btn-xs fw-bold px-4 py-2.5 transition-all ${activeTab === 'courses' ? 'btn-premium' : 'btn-ghost text-muted'}`}
             >
-              MODULE CATALOG
+              COURSE LIST
             </button>
           </div>
           <div className="position-relative" style={{ maxWidth: '300px', width: '100%' }}>
@@ -146,12 +147,12 @@ const AdminDashboard = () => {
                   <EmptyState icon="bi-people" title="No Users Found" description="The registry is currently empty or your search yielded no results." />
                 ) : (
                   <div className="table-responsive">
-                    <table className="table-v2">
+                    <table className="table-premium">
                       <thead>
                         <tr>
-                          <th>Subject</th>
-                          <th>Credential</th>
-                          <th>Permission</th>
+                          <th>User</th>
+                          <th>Email</th>
+                          <th>Role</th>
                           <th>Actions</th>
                         </tr>
                       </thead>
@@ -186,13 +187,13 @@ const AdminDashboard = () => {
                   <EmptyState icon="bi-layers" title="No Courses Found" description="The catalog is currently empty or your search yielded no results." />
                 ) : (
                   <div className="table-responsive">
-                    <table className="table-v2">
+                    <table className="table-premium">
                       <thead>
                         <tr>
-                          <th>Module Title</th>
-                          <th>Category Node</th>
+                          <th>Course Title</th>
+                          <th>Category</th>
                           <th>Status</th>
-                          <th>Architect</th>
+                          <th>Instructor</th>
                         </tr>
                       </thead>
                       <tbody>

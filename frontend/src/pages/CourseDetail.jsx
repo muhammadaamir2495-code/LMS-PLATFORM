@@ -52,7 +52,7 @@ const CourseDetail = () => {
     try {
       await api.post('/enroll', { courseId: id });
       setEnrollSuccess(true);
-      toast.success('Sequence Synchronized');
+      toast.success('Enrollment successful!');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Enrollment failed');
     } finally {
@@ -65,7 +65,7 @@ const CourseDetail = () => {
       <div className="min-vh-100 d-flex align-items-center justify-content-center bg-app">
         <div className="text-center">
           <div className="spinner-border text-primary" role="status"></div>
-          <p className="text-muted mt-6 text-xs fw-bold text-uppercase tracking-widest">Awaiting Module Telemetry</p>
+          <p className="text-muted mt-6 text-xs fw-bold text-uppercase tracking-widest">Loading course...</p>
         </div>
       </div>
     );
@@ -76,9 +76,9 @@ const CourseDetail = () => {
       <div className="min-vh-100 d-flex align-items-center justify-content-center bg-app">
         <div className="glass-surface p-12 text-center shadow-2xl border-glass" style={{ maxWidth: '520px', borderRadius: '32px' }}>
           <i className="bi bi-exclamation-triangle text-danger fs-1 mb-8 d-block"></i>
-          <h2 className="mb-4 text-white fw-black">Module Not Detected</h2>
-          <p className="text-muted mb-10">{error || 'The requested intelligence asset is currently offline or does not exist.'}</p>
-          <Link to="/courses" className="btn-premium px-12 py-3 text-xs fw-bold">RETURN TO CATALOG</Link>
+          <h2 className="mb-4 text-white fw-black">Course Not Found</h2>
+          <p className="text-muted mb-10">{error || 'We couldn\'t find the course you\'re looking for. It may have been moved.'}</p>
+          <Link to="/courses" className="btn-premium px-12 py-3 text-xs fw-bold">Back to Courses</Link>
         </div>
       </div>
     );
@@ -100,7 +100,7 @@ const CourseDetail = () => {
                   </span>
                   <div className="d-flex align-items-center gap-2">
                     <i className="bi bi-star-fill text-warning"></i>
-                    <span className="text-muted text-xs fw-bold tracking-widest">4.9 RANKING</span>
+                    <span className="text-muted text-xs fw-bold tracking-widest">4.9 RATING</span>
                   </div>
                 </div>
                 <h1 className="display-3 fw-black text-white mb-8 tracking-tighter" style={{ lineHeight: '1' }}>{course.title}</h1>
@@ -111,7 +111,7 @@ const CourseDetail = () => {
                     <i className="bi bi-person fs-4"></i>
                   </div>
                   <div>
-                    <div className="text-dim text-xs fw-bold text-uppercase tracking-widest mb-1">Module Architect</div>
+                    <div className="text-dim text-xs fw-bold text-uppercase tracking-widest mb-1">Instructor</div>
                     <div className="fw-bold text-white fs-5">{course.instructor?.name || 'Nexus Expert'}</div>
                   </div>
                 </div>
@@ -139,20 +139,20 @@ const CourseDetail = () => {
         <Row className="g-16">
           <Col lg={8}>
             <div className="mb-16">
-              <h3 className="mb-8 fw-black text-white tracking-tight">Technical Overview</h3>
+              <h3 className="mb-8 fw-black text-white tracking-tight">Overview</h3>
               <div className="glass-surface p-10 rounded-2xl border-glass">
                 <p className="text-muted fs-6 leading-relaxed mb-0" style={{ whiteSpace: 'pre-wrap' }}>{course.description}</p>
               </div>
             </div>
 
             <div className="mb-16">
-              <h3 className="mb-8 fw-black text-white tracking-tight">Sequence Objectives</h3>
+              <h3 className="mb-8 fw-black text-white tracking-tight">What you'll learn</h3>
               <Row className="g-6">
                 {[
-                  "Architectural mastery of complex ecosystems",
-                  "Execution of production-grade workflows",
-                  "Industry-standard performance optimization",
-                  "Elite-level skill validation & certification"
+                  "Master project architecture",
+                  "Professional developer workflows",
+                  "Performance optimization",
+                  "Industry-recognized certification"
                 ].map((item, idx) => (
                   <Col md={6} key={idx}>
                     <div className="d-flex align-items-center gap-4 p-5 bg-white-5 border-glass rounded-xl shadow-sm">
@@ -171,7 +171,7 @@ const CourseDetail = () => {
             <div className="sticky-top" style={{ top: '2rem' }}>
               <div className="glass-surface p-10 shadow-2xl border-glass" style={{ borderRadius: '32px' }}>
                 <div className="mb-10 pb-10 border-bottom border-glass">
-                  <span className="text-dim text-xs fw-bold text-uppercase d-block mb-3 tracking-widest">ONE-TIME VALUATION</span>
+                  <span className="text-dim text-xs fw-bold text-uppercase d-block mb-3 tracking-widest">Pricing</span>
                   <div className="d-flex align-items-baseline gap-3">
                     <h2 className="display-4 fw-black text-white mb-0">${course.price}</h2>
                     <span className="text-dim fw-bold">USD</span>
@@ -183,9 +183,9 @@ const CourseDetail = () => {
                     <div className="bg-success bg-opacity-20 text-success rounded-circle d-inline-flex p-4 mb-6">
                       <i className="bi bi-patch-check-fill fs-2"></i>
                     </div>
-                    <h4 className="fw-black text-white mb-2 tracking-tight">IDENTITY ENROLLED</h4>
-                    <p className="text-muted small mb-8">You have successfully synchronized with this module.</p>
-                    <Link to="/student-dashboard" className="btn-premium w-full py-3 text-xs fw-bold tracking-widest">OPEN TERMINAL</Link>
+                    <h4 className="fw-black text-white mb-2 tracking-tight">Enrolled</h4>
+                    <p className="text-muted small mb-8">You've successfully enrolled in this course.</p>
+                    <Link to="/student-dashboard" className="btn-premium w-full py-3 text-xs fw-bold tracking-widest">Go to Dashboard</Link>
                   </div>
                 ) : (
                   <div className="d-flex flex-column gap-6">
@@ -194,12 +194,46 @@ const CourseDetail = () => {
                       onClick={handleEnroll}
                       disabled={enrollLoading || (user && user.role !== 'student')}
                     >
-                      {enrollLoading ? 'SYNCHRONIZING...' : 'INITIALIZE ENROLLMENT'}
+                      {enrollLoading ? 'Enrolling...' : 'Enroll Now'}
                     </button>
                     {user && user.role !== 'student' && (
                       <div className="p-4 bg-white-5 rounded-xl text-center border-glass">
-                        <span className="text-xs text-dim fw-bold tracking-wide">Enrollment restricted to Students</span>
+                        <span className="text-xs text-dim fw-bold tracking-wide">Only students can join this course</span>
                       </div>
                     )}
                     <div className="pt-6">
-                      <h6 className="text-dim text-xs fw-bo
+                      <h6 className="text-dim text-xs fw-bold tracking-widest text-uppercase mb-6">What is inside</h6>
+                      <ul className="list-unstyled d-flex flex-column gap-5 mb-0">
+                        <li className="d-flex align-items-center gap-4 text-xs fw-bold text-muted tracking-wide text-uppercase">
+                          <i className="bi bi-play-circle text-primary fs-5"></i> 40+ hours content
+                        </li>
+                        <li className="d-flex align-items-center gap-4 text-xs fw-bold text-muted tracking-wide text-uppercase">
+                          <i className="bi bi-file-earmark-arrow-down text-primary fs-5"></i> 12 practice files
+                        </li>
+                        <li className="d-flex align-items-center gap-4 text-xs fw-bold text-muted tracking-wide text-uppercase">
+                          <i className="bi bi-award text-primary fs-5"></i> Course certificate
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        .bg-white-5 { background: rgba(255, 255, 255, 0.05); }
+        .border-glass { border: 1px solid var(--border-glass); }
+        .rounded-2xl { border-radius: 1.25rem; }
+        .rounded-3xl { border-radius: 2rem; }
+        .shadow-glow { box-shadow: 0 0 30px rgba(99, 102, 241, 0.3); }
+        .leading-relaxed { line-height: 1.6; }
+        .tracking-tighter { letter-spacing: -0.06em; }
+      `}} />
+    </div>
+  );
+};
+
+export default CourseDetail;

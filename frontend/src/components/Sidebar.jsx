@@ -12,14 +12,14 @@ const Sidebar = ({ onClick }) => {
   const links = [];
 
   if (user.role === 'student') {
-    links.push({ path: '/student-dashboard', icon: 'bi-grid-1x2', label: 'My Learning' });
-    links.push({ path: '/courses', icon: 'bi-search', label: 'Explore Courses' });
+    links.push({ path: '/student-dashboard', icon: 'bi-grid-1x2', label: 'Dashboard' });
+    links.push({ path: '/courses', icon: 'bi-search', label: 'All Courses' });
   } else if (user.role === 'instructor') {
     links.push({ path: '/instructor-dashboard', icon: 'bi-layout-text-sidebar-reverse', label: 'Dashboard' });
     links.push({ path: '/courses', icon: 'bi-book', label: 'All Courses' });
   } else if (user.role === 'admin') {
-    links.push({ path: '/admin-dashboard', icon: 'bi-speedometer2', label: 'Platform Overview' });
-    links.push({ path: '/courses', icon: 'bi-collection', label: 'Manage Courses' });
+    links.push({ path: '/admin-dashboard', icon: 'bi-speedometer2', label: 'Admin Panel' });
+    links.push({ path: '/courses', icon: 'bi-collection', label: 'All Courses' });
   }
 
   return (
@@ -34,7 +34,7 @@ const Sidebar = ({ onClick }) => {
       </div>
       
       <div className="px-6 mb-4 small fw-bold text-uppercase tracking-widest text-muted" style={{ fontSize: '10px', opacity: 0.5 }}>
-        Management
+        Main Menu
       </div>
 
       <Nav className="flex-column flex-grow-1 px-3">

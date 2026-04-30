@@ -1,234 +1,280 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
-  /* --- Unified SaaS Design System (Stripe-Level Dark) --- */
-  
-  /* Core Palette */
+  /* --- 1. Core Color Palette (SaaS Premium Dark) --- */
   --primary: #6366f1;
-  --primary-hover: #4f46e5;
+  --primary-rgb: 99, 102, 241;
   --secondary: #a855f7;
+  --secondary-rgb: 168, 85, 247;
   --accent: #06b6d4;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
   
-  /* Deep Dark Palette */
-  --bg-app: #0a0f1c;
-  --bg-surface: rgba(255, 255, 255, 0.03);
-  --bg-card: rgba(255, 255, 255, 0.06);
-  --bg-glass: rgba(10, 15, 28, 0.8);
-  
-  /* Borders & Dividers */
-  --border-glass: rgba(255, 255, 255, 0.08);
-  --border-gradient: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+  /* Deep Dark Backgrounds */
+  --bg-dark: #020617;
+  --bg-card: rgba(15, 23, 42, 0.6);
+  --bg-surface: rgba(30, 41, 59, 0.4);
+  --bg-glass: rgba(15, 23, 42, 0.85);
   
   /* Text System */
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
   --text-dim: #64748b;
+  --text-inverse: #020617;
   
-  /* Geometry */
-  --radius-sm: 8px;
+  /* Borders & Dividers */
+  --border: rgba(255, 255, 255, 0.08);
+  --border-glass: rgba(255, 255, 255, 0.1);
+  --border-hover: rgba(255, 255, 255, 0.15);
+  
+  /* --- 2. Geometry & Spacing --- */
   --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
   --radius-full: 9999px;
   
-  /* Shadows & Blur */
+  /* --- 3. Shadows & Effects --- */
   --shadow-premium: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  --glass-blur: blur(16px);
-  
-  /* Motion Constants */
-  --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.1);
+  --glass-blur: blur(12px);
+  --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* --- Global Reset & Foundation --- */
-* {
+/* --- 4. Global Reset --- */
+*, *::before, *::after {
   box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
-  font-family: 'Inter', sans-serif;
-  background-color: var(--bg-app);
+  padding: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-dark);
   color: var(--text-main);
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  line-height: 1.6;
 }
 
-/* Typography Consistency */
+/* --- 5. Typography System --- */
 h1, h2, h3, h4, h5, h6 {
   color: var(--text-main);
   font-weight: 700;
   letter-spacing: -0.03em;
   margin-top: 0;
+  line-height: 1.1;
 }
 
-h1 { font-size: 2.5rem; line-height: 1.1; font-weight: 800; }
-h2 { font-size: 2rem; line-height: 1.2; }
-h3 { font-size: 1.5rem; line-height: 1.3; }
+h1 { font-size: 3.5rem; font-weight: 800; letter-spacing: -0.05em; }
+h2 { font-size: 2.5rem; letter-spacing: -0.04em; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.25rem; }
 
-/* --- SaaS Layout Components --- */
+.text-muted { color: var(--text-muted) !important; }
+.text-dim { color: var(--text-dim) !important; }
+.text-primary { color: var(--primary) !important; }
+.text-xs { font-size: 0.75rem !important; }
+.text-sm { font-size: 0.875rem !important; }
+.fw-black { font-weight: 900 !important; }
+.tracking-widest { letter-spacing: 0.1em !important; }
+.leading-tight { line-height: 1.25 !important; }
 
-/* Glassmorphism Surface */
-.glass-surface {
-  background: var(--bg-surface);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--border-glass);
-}
+/* --- 6. Unified Components --- */
 
-/* Premium Navigation Sidebar */
-.sidebar-v2 {
-  width: 260px;
-  height: 100vh;
-  position: fixed;
-  left: 0;
-  top: 0;
-  background: var(--bg-glass);
-  backdrop-filter: var(--glass-blur);
-  border-right: 1px solid var(--border-glass);
-  display: flex;
-  flex-direction: column;
-  z-index: 1000;
-  padding: 2rem 1rem;
-}
-
-.sidebar-item {
-  display: flex;
-  align-items: center;
-  padding: 12px 16px;
-  color: var(--text-muted);
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 14px;
-  border-radius: var(--radius-md);
-  margin-bottom: 4px;
-  transition: var(--transition-smooth);
-  gap: 12px;
-  position: relative;
-}
-
-.sidebar-item:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-main);
-}
-
-.sidebar-item.active {
-  background: var(--primary);
-  color: white;
-  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-}
-
-/* --- Component Library --- */
-
-/* Premium Stat Cards */
-.stat-card-premium {
-  background: var(--bg-card);
-  border: 1px solid var(--border-glass);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  transition: var(--transition-smooth);
-  overflow: hidden;
-  position: relative;
-}
-
-.stat-card-premium:hover {
-  transform: translateY(-4px) scale(1.02);
-  border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: var(--shadow-premium);
-}
-
-/* Gradient Primary Button */
+/* Buttons */
 .btn-premium {
   background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: white;
-  border: none;
-  padding: 10px 24px;
-  font-weight: 700;
-  font-size: 14px;
+  color: #fff !important;
+  padding: 0.75rem 1.75rem;
   border-radius: var(--radius-md);
-  transition: var(--transition-smooth);
-  box-shadow: 0 8px 16px -4px rgba(99, 102, 241, 0.3);
+  font-weight: 600;
+  border: none;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: var(--transition);
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 8px 16px -4px rgba(99, 102, 241, 0.3);
+  white-space: nowrap;
 }
 
 .btn-premium:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 20px -5px rgba(99, 102, 241, 0.5);
+  box-shadow: 0 12px 24px -6px rgba(99, 102, 241, 0.5);
+  filter: brightness(1.1);
 }
 
-.btn-premium:active {
-  transform: scale(0.97);
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-main) !important;
+  padding: 0.75rem 1.75rem;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  transition: var(--transition);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
 }
 
-/* Data Tables - SaaS Dark Mode */
-.table-v2 {
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+}
+
+/* Cards & Surfaces */
+.card-premium, .stat-card-premium {
+  background: var(--bg-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  transition: var(--transition);
+  box-shadow: var(--shadow-premium);
+  height: 100%;
+}
+
+.card-premium:hover, .stat-card-premium:hover {
+  transform: translateY(-8px);
+  border-color: var(--border-hover);
+  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.5), 0 0 20px rgba(99, 102, 241, 0.1);
+}
+
+.glass-surface {
+  background: var(--bg-glass);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border);
+}
+
+/* Tables */
+.table-premium {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 8px;
 }
 
-.table-v2 th {
+.table-premium th {
   color: var(--text-dim);
-  font-size: 11px;
-  font-weight: 700;
   text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 700;
   letter-spacing: 0.1em;
-  padding: 0 24px 12px;
-  text-align: left;
+  padding: 1rem 1.5rem;
 }
 
-.table-v2 tr td {
-  background: var(--bg-surface);
-  border-top: 1px solid var(--border-glass);
-  border-bottom: 1px solid var(--border-glass);
-  padding: 16px 24px;
-  font-size: 14px;
-  transition: var(--transition-smooth);
+.table-premium tr {
+  background: var(--bg-card);
+  transition: var(--transition);
 }
 
-.table-v2 tr td:first-child {
-  border-left: 1px solid var(--border-glass);
+.table-premium tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+  transform: scale(1.002);
+}
+
+.table-premium td {
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.table-premium td:first-child {
+  border-left: 1px solid var(--border);
   border-top-left-radius: var(--radius-md);
   border-bottom-left-radius: var(--radius-md);
 }
 
-.table-v2 tr td:last-child {
-  border-right: 1px solid var(--border-glass);
+.table-premium td:last-child {
+  border-right: 1px solid var(--border);
   border-top-right-radius: var(--radius-md);
   border-bottom-right-radius: var(--radius-md);
 }
 
-.table-v2 tr:hover td {
-  background: rgba(255, 255, 255, 0.08);
+/* Badges */
+.badge-premium {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-full);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
-/* --- Layout Wrappers --- */
-.dashboard-content {
-  margin-left: 260px;
-  padding: 3rem;
-  min-height: 100vh;
+/* Forms & Inputs */
+.form-control, .form-control-v2 {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  color: var(--text-main) !important;
+  padding: 0.75rem 1rem !important;
+  transition: var(--transition) !important;
 }
 
-@media (max-width: 991px) {
-  .dashboard-content {
-    margin-left: 0;
-    padding: 1.5rem;
-  }
+.form-control:focus, .form-control-v2:focus {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1) !important;
+  outline: none !important;
 }
 
-/* --- Utilities --- */
-.text-muted { color: var(--text-muted) !important; }
-.fw-black { font-weight: 800; }
-.rounded-xl { border-radius: var(--radius-xl); }
-.shadow-2xl { box-shadow: var(--shadow-premium); }
-.mb-12 { margin-bottom: 3rem; }
-.mb-8 { margin-bottom: 2rem; }
-.gap-6 { gap: 1.5rem; }
+/* --- 7. Utility Classes --- */
+.rounded-full { border-radius: var(--radius-full) !important; }
+.rounded-xl { border-radius: 1rem !important; }
+.bg-white-5 { background: rgba(255, 255, 255, 0.05) !important; }
+.bg-primary-10 { background: rgba(var(--primary-rgb), 0.1) !important; }
 
 /* Custom Scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-app); }
-::-webkit-scrollbar-thumb { background: var(--bg-card); border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-dark); }
+::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #334155; }
+
+/* --- 8. Animation System --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s var(--transition) forwards;
+}
+
+/* --- 9. Bootstrap & Layout Fixes --- */
+.container { max-width: 1240px; }
+.section-padding { padding: 80px 0; }
+
+.modal-content {
+  background: var(--bg-dark) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-premium) !important;
+}
+
+.progress {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border-radius: var(--radius-full) !important;
+}
+
+.progress-bar {
+  background: linear-gradient(90deg, var(--primary), var(--secondary)) !important;
+}
+
+/* Layout Utilities */
+.gap-6 { gap: 1.5rem !important; }
+.gap-8 { gap: 2rem !important; }
+.p-10 { padding: 2.5rem !important; }
+.mb-16 { margin-bottom: 4rem !important; }

@@ -56,49 +56,49 @@ const StudentDashboard = () => {
     <DashboardLayout>
       <header className="mb-12">
         <div className="d-inline-flex align-items-center bg-primary bg-opacity-10 text-primary px-3 py-1 rounded-full mb-4 fw-bold text-xs tracking-wider text-uppercase">
-          Identity Confirmed • Academic Node
+          Student Portal • Learning Environment
         </div>
-        <h1 className="mb-4 display-4 fw-black text-white">Core Terminal</h1>
+        <h1 className="mb-4 display-4 fw-black text-white">Dashboard Overview</h1>
         <p className="text-muted fs-5" style={{ maxWidth: '600px' }}>
-          Welcome back, {user.name}. You have {activeModules} active modules pending completion.
+          Welcome back, {user.name}. You have {activeModules} active courses.
         </p>
       </header>
 
       <Row className="mb-12 g-6">
         <Col md={4}>
           <StatCard 
-            label="Active Modules" 
+            label="Active Courses" 
             value={enrollments.length} 
             icon="bi-grid" 
-            subLabel="Total enrolled modules"
+            subLabel="Total enrolled courses"
           />
         </Col>
         <Col md={4}>
           <StatCard 
-            label="Certifications" 
+            label="Completed Courses" 
             value={completedModules} 
             icon="bi-patch-check" 
             color="#10b981"
-            subLabel="Successfully completed"
+            subLabel="Courses successfully finished"
           />
         </Col>
         <Col md={4}>
           <StatCard 
-            label="Neural Progress" 
+            label="Overall Progress" 
             value={`${avgProgress}%`} 
             icon="bi-activity" 
             color="#6366f1"
             trend={avgProgress > 0 ? 15 : 0}
-            subLabel="Average across all modules"
+            subLabel="Your total learning completion"
           />
         </Col>
       </Row>
 
       <section>
         <div className="d-flex align-items-center justify-content-between mb-8">
-          <h3 className="mb-0 text-white fw-bold">Library Modules</h3>
+          <h3 className="mb-0 text-white fw-bold">My Courses</h3>
           <Link to="/courses" className="btn btn-ghost text-primary fw-bold text-xs tracking-widest">
-            CATALOG EXPLORER <i className="bi bi-arrow-right ms-2"></i>
+            BROWSE COURSES <i className="bi bi-arrow-right ms-2"></i>
           </Link>
         </div>
 
@@ -111,9 +111,9 @@ const StudentDashboard = () => {
         ) : enrollments.length === 0 ? (
           <EmptyState 
             icon="bi-journal-plus"
-            title="Zero Modules Detected"
-            description="Your neural library is empty. Explore the catalog to begin your mastery journey and acquire new skills."
-            actionText="Initialize Learning"
+            title="No Active Courses"
+            description="You haven't enrolled in any courses yet. Explore our catalog to start building your skills."
+            actionText="Explore Courses"
             onAction={() => window.location.href = '/courses'}
           />
         ) : (
@@ -145,7 +145,7 @@ const StudentDashboard = () => {
                     
                     <div className="mt-auto">
                       <div className="d-flex justify-content-between align-items-center mb-3">
-                        <span className="text-dim text-xs fw-bold tracking-widest text-uppercase">Sequence Completion</span>
+                        <span className="text-dim text-xs fw-bold tracking-widest text-uppercase">Course Progress</span>
                         <span className="text-white fw-black text-xs">{enrollment.progress || 0}%</span>
                       </div>
                       <div className="progress mb-8 bg-white-5" style={{ height: '6px', borderRadius: '3px' }}>
@@ -159,12 +159,12 @@ const StudentDashboard = () => {
                         ></div>
                       </div>
                       <div className="d-flex gap-3">
-                        <Link to={`/courses/${enrollment.course?._id}`} className="btn btn-ghost border-glass text-white text-xs fw-bold w-full py-2.5">DETAILS</Link>
+                        <Link to={`/courses/${enrollment.course?._id}`} className="btn btn-ghost border-glass text-white text-xs fw-bold w-full py-2.5">VIEW DETAILS</Link>
                         {enrollment.progress < 100 ? (
-                          <button className="btn-premium w-full py-2.5 text-xs" onClick={() => handleUpdateProgress(enrollment.course?._id, enrollment.progress || 0)}>RESUME</button>
+                          <button className="btn-premium w-full py-2.5 text-xs" onClick={() => handleUpdateProgress(enrollment.course?._id, enrollment.progress || 0)}>CONTINUE</button>
                         ) : (
                           <button className="btn btn-ghost w-full py-2.5 text-success text-xs fw-bold border-glass" disabled>
-                            <i className="bi bi-patch-check-fill me-2"></i>FINISHED
+                            <i className="bi bi-patch-check-fill me-2"></i>COMPLETED
                           </button>
                         )}
                       </div>

@@ -1,95 +1,102 @@
 const Enrollment = require('../models/Enrollment');
 const Course = require('../models/Course');
+const asyncHandler = require('../middleware/asyncHandler');
 
-// @desc    Enroll in a course
-// @route   POST /api/enroll
-// @access  Private (Student)
-exports.enrollCourse = async (req, res) => {
-  try {
-    const { courseId } = req.body;
+/**
+ * @desc    Enroll in a course
+ * @route   POST /api/enroll
+ * @access  Private (Student)
+ */
+exports.enrollCourse = asyncHandler(async (req, res) => {
+  const { courseId } = req.body;
 
-    // Check if course exists
-    const course = await Course.findById(courseId);
-    if (!course) {
-      return res.status(404).json({ success: false, message: 'Course not found' });
-    }
-
-    // Check if already enrolled
-    const alreadyEnrolled = await Enrollment.findOne({
-      student: req.user.id,
-      course: courseId,
-    });
-
-    if (alreadyEnrolled) {
-      return res.status(400).json({ success: false, message: 'Already enrolled in this course' });
-    }
-
-    const enrollment = await Enrollment.create({
-      student: req.user.id,
-      course: courseId,
-    });
-
-    res.status(201).json({
-      success: true,
-      data: enrollment,
-    });
-  } catch (err) {
-    res.status(500).json({ success: false, message: 'Server Error', error: err.message });
+  if (!courseId) {
+    res.status(400);
+    throw new Error('Please provide a course ID');
   }
-};
 
-// @desc    Get enrolled courses
-// @route   GET /api/my-courses
-// @access  Private (Student)
-exports.getMyCourses = async (req, res) => {
-  try {
-    const enrollments = await Enrollment.find({ student: req.user.id }).populate({
-      path: 'course',
-      populate: {
-        path: 'instructor',
-        select: 'name',
-      },
-    });
-
-    res.status(200).json({
-      success: true,
-      count: enrollments.length,
-      data: enrollments,
-    });
-  } catch (err) {
-    res.status(500).json({ success: false, message: 'Server Error', error: err.message });
+  // Check if course exists
+  const course = await Course.findById(courseId);
+  if (!course) {
+    res.status(404);
+    throw new Error('Course not found');
   }
-};
 
-// @desc    Update course progress
-// @route   PUT /api/progress/:courseId
-// @access  Private (Student)
-exports.updateProgress = async (req, res) => {
-  try {
-    let { progress } = req.body;
-    const { courseId } = req.params;
+  // Check if already enrolled
+  const alreadyEnrolled = await Enrollment.findOne({
+    student: req.user.id,
+    course: courseId,
+  });
 
-    if (progress === undefined || progress < 0 || progress > 100) {
-      return res.status(400).json({ success: false, message: 'Please provide a valid progress value between 0 and 100' });
-    }
-
-    const enrollment = await Enrollment.findOne({
-      student: req.user.id,
-      course: courseId,
-    });
-
-    if (!enrollment) {
-      return res.status(404).json({ success: false, message: 'Enrollment not found' });
-    }
-
-    enrollment.progress = progress;
-    await enrollment.save();
-
-    res.status(200).json({
-      success: true,
-      data: enrollment,
-    });
-  } catch (err) {
-    res.status(500).json({ success: false, message: 'Server Error', error: err.message });
+  if (alreadyEnrolled) {
+    res.status(400);
+    throw new Error('You are already enrolled in this course');
   }
-};
+
+  const enrollment = await Enrollment.create({
+    student: req.user.id,
+    course: courseId,
+  });
+
+  res.status(201).json({
+    success: true,
+    message: 'Enrolled successfully',
+    data: enrollment,
+  });
+});
+
+/**
+ * @desc    Get enrolled courses for current student
+ * @route   GET /api/my-courses
+ * @access  Private (Student)
+ */
+exports.getMyCourses = asyncHandler(async (req, res) => {
+  const enrollments = await Enrollment.find({ student: req.user.id }).populate({
+    path: 'course',
+    populate: {
+      path: 'instructor',
+      select: 'name email',
+    },
+  });
+
+  res.status(200).json({
+    success: true,
+    message: 'Enrolled courses fetched successfully',
+    count: enrollments.length,
+    data: enrollments,
+  });
+});
+
+/**
+ * @desc    Update course progress
+ * @route   PUT /api/progress/:courseId
+ * @access  Private (Student)
+ */
+exports.updateProgress = asyncHandler(async (req, res) => {
+  const { progress } = req.body;
+  const { courseId } = req.params;
+
+  if (progress === undefined || progress < 0 || progress > 100) {
+    res.status(400);
+    throw new Error('Please provide a valid progress value between 0 and 100');
+  }
+
+  const enrollment = await Enrollment.findOne({
+    student: req.user.id,
+    course: courseId,
+  });
+
+  if (!enrollment) {
+    res.status(404);
+    throw new Error('Enrollment not found for this user and course');
+  }
+
+  enrollment.progress = progress;
+  await enrollment.save();
+
+  res.status(200).json({
+    success: true,
+    message: 'Progress updated successfully',
+    data: enrollment,
+  });
+});

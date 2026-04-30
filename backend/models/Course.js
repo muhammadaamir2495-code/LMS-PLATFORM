@@ -39,7 +39,24 @@ const courseSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
   }
 );
+
+// Virtual for enrollment count
+courseSchema.virtual('enrollmentsCount', {
+  ref: 'Enrollment',
+  localField: '_id',
+  foreignField: 'course',
+  count: true
+});
+
+// Optimize queries by instructor
+courseSchema.index({ instructor: 1 });
+// Optimize category filtering
+courseSchema.index({ category: 1 });
+// Optimize status filtering
+courseSchema.index({ status: 1 });
 
 module.exports = mongoose.model('Course', courseSchema);

@@ -40,4 +40,23 @@ const CourseCard = ({ course }) => {
         </h4>
         
         <div className="mt-auto pt-6 border-top border-glass d-flex justify-content-between align-items-center">
-          <div className="f
+          <div className="fw-black text-white fs-4">
+            ${course.price}
+          </div>
+          <Link to={`/courses/${course._id}`} className="btn-premium py-2 px-6 text-xs fw-bold tracking-widest text-decoration-none">
+            DETAILS
+          </Link>
+        </div>
+      </div>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        .leading-tight { line-height: 1.25; }
+        .hover-scale:hover { transform: scale(1.1); }
+        .transition-smooth { transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .bg-white-5 { background: rgba(255, 255, 255, 0.05); }
+      `}} />
+    </motion.div>
+  );
+};
+
+export default CourseCard;

@@ -119,7 +119,16 @@ const DashboardLayout = ({ children }) => {
             </button>
             <div className="position-relative d-none d-md-block" style={{ maxWidth: '400px', width: '100%' }}>
               <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-dim"></i>
-              <input type="text" className="form-control bg-white-5 border-glass py-2 ps-10 text-xs text-white" placeholder="Search system resources..." />
+              <input 
+                type="text" 
+                className="form-control bg-white-5 border-glass py-2 ps-10 text-xs text-white" 
+                placeholder="Search system resources..." 
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    navigate(`/courses?search=${e.target.value}`);
+                  }
+                }}
+              />
             </div>
           </div>
           
@@ -166,4 +175,4 @@ const DashboardLayout = ({ children }) => {
   );
 };
 
-ex
+export default DashboardLayout;

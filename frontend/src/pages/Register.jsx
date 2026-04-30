@@ -32,7 +32,7 @@ const Register = () => {
     setLoading(true);
     
     if (formData.password !== formData.confirmPassword) {
-      toast.error('Verification Error: Passwords do not match');
+      toast.error('Error: Passwords do not match');
       setLoading(false);
       return;
     }
@@ -41,16 +41,16 @@ const Register = () => {
       const { confirmPassword, ...dataToSend } = formData;
       const res = await register(dataToSend);
       if (res.success) {
-        toast.success('Identity Created');
+        toast.success('Account Created');
         const role = res.user.role;
         if (role === 'admin') navigate('/admin-dashboard');
         else if (role === 'instructor') navigate('/instructor-dashboard');
         else navigate('/student-dashboard');
       } else {
-        toast.error(res.message || 'Identity initialization failed');
+        toast.error(res.message || 'Could not create account');
       }
     } catch (err) {
-      toast.error('System synchronization failure');
+      toast.error('Server error, please try again');
     } finally {
       setLoading(false);
     }
@@ -72,10 +72,10 @@ const Register = () => {
                 <i className="bi bi-person-plus fs-1 text-primary"></i>
               </div>
               <h1 className="display-2 fw-black text-white mb-6" style={{ letterSpacing: '-0.06em', lineHeight: '1' }}>
-                Join the<br />Future of<br />Software.
+                Join the<br />Future of<br />Learning.
               </h1>
               <p className="text-muted fs-5 leading-relaxed" style={{ maxWidth: '340px' }}>
-                Initialize your professional profile and begin your journey into high-scale engineering.
+                Create your account and start building your future today with professional courses.
               </p>
             </motion.div>
           </div>
@@ -91,8 +91,8 @@ const Register = () => {
             transition={{ duration: 0.6 }}
           >
             <div className="text-center mb-10">
-              <h2 className="text-white fw-black mb-2 display-6 tracking-tight">Create Identity</h2>
-              <p className="text-muted small fw-medium tracking-wide">Join 10,000+ elite learners globally.</p>
+              <h2 className="text-white fw-black mb-2 display-6 tracking-tight">Get Started</h2>
+              <p className="text-muted small fw-medium tracking-wide">Join 10,000+ learners worldwide.</p>
             </div>
 
             <Form onSubmit={handleSubmit}>
@@ -114,7 +114,7 @@ const Register = () => {
               </Form.Group>
 
               <Form.Group className="mb-6">
-                <Form.Label className="text-xs fw-bold text-uppercase text-dim mb-2 tracking-widest">Email Address</Form.Label>
+                <Form.Label className="text-xs fw-bold text-uppercase text-dim mb-2 tracking-widest">Email</Form.Label>
                 <div className="position-relative">
                   <i className="bi bi-envelope position-absolute top-50 start-0 translate-middle-y ms-4 text-dim"></i>
                   <Form.Control 
@@ -132,7 +132,7 @@ const Register = () => {
               <Row className="g-6">
                 <Col md={6}>
                   <Form.Group className="mb-6">
-                    <Form.Label className="text-xs fw-bold text-uppercase text-dim mb-2 tracking-widest">Master Key</Form.Label>
+                    <Form.Label className="text-xs fw-bold text-uppercase text-dim mb-2 tracking-widest">Password</Form.Label>
                     <div className="position-relative">
                       <i className="bi bi-lock position-absolute top-50 start-0 translate-middle-y ms-4 text-dim"></i>
                       <Form.Control 
@@ -150,7 +150,7 @@ const Register = () => {
                 </Col>
                 <Col md={6}>
                   <Form.Group className="mb-6">
-                    <Form.Label className="text-xs fw-bold text-uppercase text-dim mb-2 tracking-widest">Confirm Key</Form.Label>
+                    <Form.Label className="text-xs fw-bold text-uppercase text-dim mb-2 tracking-widest">Confirm Password</Form.Label>
                     <div className="position-relative">
                       <i className="bi bi-shield-check position-absolute top-50 start-0 translate-middle-y ms-4 text-dim"></i>
                       <Form.Control 
@@ -168,7 +168,7 @@ const Register = () => {
               </Row>
 
               <Form.Group className="mb-10">
-                <Form.Label className="text-xs fw-bold text-uppercase text-dim mb-4 tracking-widest d-block">Access Permission Level</Form.Label>
+                <Form.Label className="text-xs fw-bold text-uppercase text-dim mb-4 tracking-widest d-block">Choose Your Path</Form.Label>
                 <div className="d-flex gap-4">
                   <motion.div 
                     whileHover={{ y: -2 }}
@@ -177,7 +177,7 @@ const Register = () => {
                     onClick={() => setFormData({...formData, role: 'student'})}
                   >
                     <div className={`fw-black text-xs tracking-widest ${formData.role === 'student' ? 'text-primary' : 'text-muted'}`}>STUDENT</div>
-                    <div className="text-dim mt-1" style={{ fontSize: '10px' }}>Learn Assets</div>
+                    <div className="text-dim mt-1" style={{ fontSize: '10px' }}>Learn New Skills</div>
                   </motion.div>
                   <motion.div 
                     whileHover={{ y: -2 }}
@@ -185,8 +185,8 @@ const Register = () => {
                     className={`flex-grow-1 p-4 border rounded-xl text-center cursor-pointer transition-smooth ${formData.role === 'instructor' ? 'border-secondary bg-secondary bg-opacity-10' : 'border-glass bg-white-5'}`}
                     onClick={() => setFormData({...formData, role: 'instructor'})}
                   >
-                    <div className={`fw-black text-xs tracking-widest ${formData.role === 'instructor' ? 'text-secondary' : 'text-muted'}`}>INSTRUCTOR</div>
-                    <div className="text-dim mt-1" style={{ fontSize: '10px' }}>Architect Content</div>
+                    <div className={`fw-black text-xs tracking-widest ${formData.role === 'instructor' ? 'text-secondary' : 'text-muted'}`}>TEACHER</div>
+                    <div className="text-dim mt-1" style={{ fontSize: '10px' }}>Create Content</div>
                   </motion.div>
                 </div>
               </Form.Group>
@@ -196,12 +196,12 @@ const Register = () => {
                 className="btn-premium w-full py-3.5 mb-8 text-xs fw-bold tracking-widest shadow-glow"
                 disabled={loading}
               >
-                {loading ? 'INITIALIZING PROFILE...' : 'CONSTRUCT IDENTITY'}
+                {loading ? 'CREATING ACCOUNT...' : 'CREATE ACCOUNT'}
               </button>
               
               <div className="text-center">
-                <span className="text-dim text-xs fw-bold tracking-wide">EXISTING IDENTITY? </span>
-                <Link to="/login" className="text-primary text-xs fw-bold text-decoration-none hover-white">RETURN TO TERMINAL</Link>
+                <span className="text-dim text-xs fw-bold tracking-wide">ALREADY HAVE AN ACCOUNT? </span>
+                <Link to="/login" className="text-primary text-xs fw-bold text-decoration-none hover-white">LOG IN</Link>
               </div>
             </Form>
           </motion.div>
