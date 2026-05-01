@@ -48,6 +48,8 @@ app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/courses', require('./routes/courseRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
+app.use('/api/student', require('./routes/studentRoutes'));
+app.use('/api/instructor', require('./routes/instructorRoutes'));
 app.use('/api', require('./routes/enrollmentRoutes'));
 app.use('/api/dev', require('./routes/devRoutes'));
 

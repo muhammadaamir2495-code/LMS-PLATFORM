@@ -18,7 +18,7 @@ const StudentDashboard = () => {
   useEffect(() => {
     const fetchMyCourses = async () => {
       try {
-        const response = await api.get('/my-courses');
+        const response = await api.get('/student/my-courses');
         setEnrollments(response.data.data);
       } catch (err) {
         toast.error('Sync failed');
@@ -32,7 +32,7 @@ const StudentDashboard = () => {
   const handleUpdateProgress = async (courseId, currentProgress) => {
     const newProgress = Math.min(currentProgress + 20, 100);
     toast.promise(
-      api.put(`/progress/${courseId}`, { progress: newProgress }),
+      api.put(`/student/progress/${courseId}`, { progress: newProgress }),
       {
         loading: 'Syncing sequence...',
         success: () => {

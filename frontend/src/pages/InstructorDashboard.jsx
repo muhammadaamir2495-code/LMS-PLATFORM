@@ -17,13 +17,15 @@ const InstructorDashboard = () => {
   const [modalMode, setModalMode] = useState('create');
   const [currentCourse, setCurrentCourse] = useState(null);
   const [formLoading, setFormLoading] = useState(false);
-  const [formData, setFormData] = useState({ title: '', description: '', price: '', category: 'Web Development', thumbnail: null });
+  const [showStudents, setShowStudents] = useState(false);
+  const [enrolledStudents, setEnrolledStudents] = useState([]);
+  const [analyticsLoading, setAnalyticsLoading] = useState(false);
 
   const categories = ['Web Development', 'UI/UX Design', 'Data Science', 'Digital Marketing', 'Business'];
 
   const fetchCourses = async () => {
     try {
-      const response = await api.get(`/courses?instructor=${user.id}`);
+      const response = await api.get('/instructor/courses');
       setCourses(response.data.data);
     } catch (err) {
       toast.error('Sync failed');
@@ -33,6 +35,19 @@ const InstructorDashboard = () => {
   };
 
   useEffect(() => { fetchCourses(); }, []);
+
+  const handleViewStudents = async (courseId) => {
+    setAnalyticsLoading(true);
+    setShowStudents(true);
+    try {
+      const res = await api.get(`/instructor/courses/${courseId}/students`);
+      setEnrolledStudents(res.data.data);
+    } catch (err) {
+      toast.error('Could not fetch student list');
+    } finally {
+      setAnalyticsLoading(false);
+    }
+  };
 
   const handleShow = (mode = 'create', course = null) => {
     setModalMode(mode);
@@ -93,76 +108,37 @@ const InstructorDashboard = () => {
       </header>
 
       <Row className="mb-12 g-6">
-        <Col md={4}>
-          <StatCard 
-            label="My Courses" 
-            value={courses.length} 
-            icon="bi-layers" 
-            subLabel="Total published courses"
-          />
-        </Col>
-        <Col md={4}>
-          <StatCard 
-            label="Total Students" 
-            value={totalEnrollments} 
-            icon="bi-people" 
-            color="#ec4899"
-            subLabel="Total enrolled students"
-          />
-        </Col>
-        <Col md={4}>
-          <StatCard 
-            label="Total Revenue" 
-            value={`$${totalRevenue.toLocaleString()}`} 
-            icon="bi-currency-dollar" 
-            color="#10b981"
-            trend={12}
-            subLabel="Estimated gross earnings"
-          />
-        </Col>
+        <Col md={4}><StatCard label="My Courses" value={courses.length} icon="bi-layers" /></Col>
+        <Col md={4}><StatCard label="Total Students" value={totalEnrollments} icon="bi-people" color="#ec4899" /></Col>
+        <Col md={4}><StatCard label="Total Revenue" value={`$${totalRevenue.toLocaleString()}`} icon="bi-currency-dollar" color="#10b981" trend={12} /></Col>
       </Row>
 
       <section>
-        <div className="d-flex align-items-center justify-content-between mb-8">
-          <h3 className="mb-0 text-white fw-bold">Your Courses</h3>
-        </div>
-
+        <div className="d-flex align-items-center justify-content-between mb-8"><h3 className="mb-0 text-white fw-bold">Your Courses</h3></div>
         {loading ? (
-          <Row className="g-8">
-            {[1, 2, 3].map((n) => ( <Col key={n} md={6} lg={4}><SkeletonCard /></Col> ))}
-          </Row>
-        ) : courses.length === 0 ? (
-          <EmptyState 
-            icon="bi-pencil-square"
-            title="No Courses Yet"
-            description="You haven't created any courses yet. Start sharing your knowledge today."
-            actionText="Create First Course"
-            onAction={() => handleShow('create')}
-          />
+          <Row className="g-8">{[1, 2, 3].map((n) => ( <Col key={n} md={6} lg={4}><SkeletonCard /></Col> ))}</Row>
         ) : (
           <Row className="g-8">
             {courses.map((course, idx) => (
               <Col key={course._id} md={6} lg={4}>
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.05 }}
-                  className="card stat-card-premium h-100 border-0 d-flex flex-column"
-                >
-                  <div className="position-relative overflow-hidden rounded-t-xl" style={{ height: '180px' }}>
-                    <div className="w-full h-100 bg-gradient-to-br from-slate-800 to-slate-900 d-flex align-items-center justify-content-center" style={{ height: '180px' }}>
+                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.05 }} className="card stat-card-premium h-100 border-0 d-flex flex-column">
+                  <div className="position-relative overflow-hidden rounded-t-xl" style={{ height: '160px' }}>
+                    <div className="w-full h-100 bg-gradient-to-br from-slate-800 to-slate-900 d-flex align-items-center justify-content-center">
                       <i className="bi bi-layers text-white-10 fs-1"></i>
                     </div>
                     <div className="position-absolute top-0 end-0 m-4">
-                      <span className={`badge ${course.status === 'published' ? 'bg-success' : 'bg-warning'} bg-opacity-20 backdrop-blur border border-white border-opacity-10 px-3 py-2 text-xs text-uppercase fw-bold`}>
-                        {course.status}
-                      </span>
+                      <span className={`badge ${course.status === 'published' ? 'bg-success' : 'bg-warning'} bg-opacity-20 backdrop-blur border border-white border-opacity-10 px-3 py-1.5 text-xs text-uppercase fw-bold`}>{course.status}</span>
                     </div>
                   </div>
                   <div className="card-body p-6 flex-grow-1 d-flex flex-column">
                     <div className="text-dim text-xs fw-bold text-uppercase tracking-widest mb-3">{course.category}</div>
-                    <h5 className="mb-8 fw-bold text-white fs-5 leading-tight">{course.title}</h5>
+                    <h5 className="mb-6 fw-bold text-white fs-6 leading-tight">{course.title}</h5>
+                    <div className="d-flex justify-content-between align-items-center mb-6 text-xs">
+                      <span className="text-dim">Students Enrolled:</span>
+                      <span className="text-white fw-bold">{course.enrollmentsCount || 0}</span>
+                    </div>
                     <div className="mt-auto pt-6 border-glass d-flex gap-2">
+                      <button className="btn btn-ghost border-glass text-white text-xs fw-bold w-full py-2.5" onClick={() => handleViewStudents(course._id)}>ANALYTICS</button>
                       <button className="btn btn-ghost border-glass text-white text-xs fw-bold w-full py-2.5" onClick={() => handleShow('edit', course)}>EDIT</button>
                       <button className="btn btn-ghost py-2.5 text-danger border-glass px-4" onClick={() => handleDelete(course._id)}><i className="bi bi-trash"></i></button>
                     </div>
@@ -173,6 +149,32 @@ const InstructorDashboard = () => {
           </Row>
         )}
       </section>
+
+      {/* Enrollments Modal */}
+      <Modal show={showStudents} onHide={() => setShowStudents(false)} centered size="lg" className="premium-modal">
+        <Modal.Header closeButton className="border-0 px-8 pt-8 bg-app text-white">
+          <Modal.Title className="fw-black text-white text-xs tracking-widest uppercase">Course Enrollment Analytics</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="px-8 py-6 bg-app">
+          {analyticsLoading ? <div className="text-center py-12"><div className="spinner-border text-primary"></div></div> : enrolledStudents.length === 0 ? <EmptyState icon="bi-people" title="No Students Yet" /> : (
+            <div className="table-responsive">
+              <table className="table-premium">
+                <thead><tr><th>Student Name</th><th>Email</th><th>Progress</th><th>Joined At</th></tr></thead>
+                <tbody>
+                  {enrolledStudents.map((e) => (
+                    <tr key={e._id}>
+                      <td className="text-white small fw-bold">{e.student?.name}</td>
+                      <td className="text-dim small">{e.student?.email}</td>
+                      <td><span className="badge bg-primary bg-opacity-20 text-primary">{e.progress}%</span></td>
+                      <td className="text-dim small">{new Date(e.createdAt).toLocaleDateString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </Modal.Body>
+      </Modal>
 
       <Modal show={show} onHide={() => setShow(false)} centered size="lg" className="premium-modal">
         <Modal.Header closeButton className="border-0 px-8 pt-8 bg-app text-white">
