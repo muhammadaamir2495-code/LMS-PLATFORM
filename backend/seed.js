@@ -43,7 +43,6 @@ const seedData = async () => {
 
     // 3. Create Courses
     const coursesData = [
-      // Web Development
       {
         title: 'Full Stack Web Development with React',
         description: 'Master modern web development from frontend to backend using React, Node, and MongoDB.',
@@ -51,7 +50,7 @@ const seedData = async () => {
         price: 99.99,
         instructor: instructors[0]._id,
         status: 'published',
-        thumbnail: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+        thumbnail: 'no-photo.jpg'
       },
       {
         title: 'Advanced JavaScript Patterns',
@@ -60,7 +59,7 @@ const seedData = async () => {
         price: 79.99,
         instructor: instructors[0]._id,
         status: 'published',
-        thumbnail: 'https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+        thumbnail: 'no-photo.jpg'
       },
       {
         title: 'Node.js Backend Architecture',
@@ -69,9 +68,8 @@ const seedData = async () => {
         price: 89.99,
         instructor: instructors[0]._id,
         status: 'published',
-        thumbnail: 'https://images.unsplash.com/photo-1561736778-92e52a7769ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+        thumbnail: 'no-photo.jpg'
       },
-      // UI/UX Design
       {
         title: 'Mastering Figma for Designers',
         description: 'A comprehensive guide to designing high-fidelity prototypes and design systems in Figma.',
@@ -79,7 +77,7 @@ const seedData = async () => {
         price: 59.99,
         instructor: instructors[1]._id,
         status: 'published',
-        thumbnail: 'https://images.unsplash.com/photo-1586717791821-3f44a563eb4c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+        thumbnail: 'no-photo.jpg'
       },
       {
         title: 'User Research & Psychology',
@@ -88,7 +86,7 @@ const seedData = async () => {
         price: 69.99,
         instructor: instructors[1]._id,
         status: 'published',
-        thumbnail: 'https://images.unsplash.com/photo-1558655146-d09347e92766?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+        thumbnail: 'no-photo.jpg'
       },
       {
         title: 'Mobile App Design Fundamentals',
@@ -97,9 +95,8 @@ const seedData = async () => {
         price: 64.99,
         instructor: instructors[1]._id,
         status: 'published',
-        thumbnail: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+        thumbnail: 'no-photo.jpg'
       },
-      // Data Science
       {
         title: 'Python for Data Science Bootcamp',
         description: 'Learn Python, NumPy, Pandas, and Matplotlib for data analysis and visualization.',
@@ -107,7 +104,7 @@ const seedData = async () => {
         price: 119.99,
         instructor: instructors[2]._id,
         status: 'published',
-        thumbnail: 'https://images.unsplash.com/photo-1551288049-bbbda536639a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+        thumbnail: 'no-photo.jpg'
       },
       {
         title: 'Machine Learning A-Z',
@@ -116,7 +113,7 @@ const seedData = async () => {
         price: 129.99,
         instructor: instructors[2]._id,
         status: 'published',
-        thumbnail: 'https://images.unsplash.com/photo-1527477321055-43ea9179d8f9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+        thumbnail: 'no-photo.jpg'
       },
       {
         title: 'Data Visualization with Tableau',
@@ -125,7 +122,7 @@ const seedData = async () => {
         price: 84.99,
         instructor: instructors[2]._id,
         status: 'published',
-        thumbnail: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+        thumbnail: 'no-photo.jpg'
       },
     ];
 

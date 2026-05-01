@@ -79,10 +79,10 @@ npm install
 ```
 Create a `.env` file in the `backend` folder:
 ```env
-PORT=5000
+PORT=8080
 MONGO_URI=your_mongodb_uri
 JWT_SECRET=your_secret_key
-FRONTEND_URL=http://localhost:5173
+FRONTEND_URL=https://lms-platform-jet.vercel.app
 CLOUDINARY_CLOUD_NAME=your_name
 CLOUDINARY_API_KEY=your_key
 CLOUDINARY_API_SECRET=your_secret
@@ -95,7 +95,7 @@ npm install
 ```
 Create a `.env` file in the `frontend` folder:
 ```env
-VITE_API_URL=http://localhost:5000/api
+VITE_API_URL=https://your-backend.up.railway.app
 ```
 
 ---

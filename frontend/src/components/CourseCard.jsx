@@ -10,14 +10,9 @@ const CourseCard = ({ course }) => {
       style={{ borderRadius: '24px' }}
     >
       <div className="position-relative overflow-hidden" style={{ height: '200px' }}>
-        <img 
-          src={course.thumbnail && course.thumbnail !== 'no-photo.jpg' 
-                ? (course.thumbnail.startsWith('http') ? course.thumbnail : `${import.meta.env.VITE_API_URL}${course.thumbnail}`) 
-                : `https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80`} 
-          className="w-full h-100 opacity-80 transition-smooth hover-scale" 
-          style={{ objectFit: 'cover' }}
-          alt={course.title}
-        />
+        <div className="w-full h-100 bg-gradient-to-br from-indigo-900 to-purple-900 d-flex align-items-center justify-content-center" style={{ minHeight: '200px' }}>
+          <i className="bi bi-journal-code text-white-10 fs-1"></i>
+        </div>
         <div className="position-absolute top-0 start-0 m-4">
           <span className="badge bg-primary bg-opacity-20 backdrop-blur border border-primary border-opacity-20 px-3 py-2 text-xs fw-bold tracking-widest text-uppercase">
             {course.category}
@@ -31,7 +26,7 @@ const CourseCard = ({ course }) => {
             <i className="bi bi-person text-xs"></i>
           </div>
           <span className="text-dim text-xs fw-bold text-uppercase tracking-widest">
-            {course.instructor?.name || 'Architect'}
+            {course.instructor?.name || 'Instructor'}
           </span>
         </div>
         
@@ -44,7 +39,7 @@ const CourseCard = ({ course }) => {
             ${course.price}
           </div>
           <Link to={`/courses/${course._id}`} className="btn-premium py-2 px-6 text-xs fw-bold tracking-widest text-decoration-none">
-            DETAILS
+            View Course
           </Link>
         </div>
       </div>

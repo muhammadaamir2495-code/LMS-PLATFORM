@@ -127,13 +127,9 @@ const StudentDashboard = () => {
                   className="card stat-card-premium h-100 border-0 d-flex flex-column"
                 >
                   <div className="position-relative overflow-hidden rounded-t-xl" style={{ height: '180px' }}>
-                    <img 
-                      src={enrollment.course?.thumbnail && enrollment.course.thumbnail !== 'no-photo.jpg' 
-                            ? (enrollment.course.thumbnail.startsWith('http') ? enrollment.course.thumbnail : `${import.meta.env.VITE_API_URL}${enrollment.course.thumbnail}`) 
-                            : `https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80`} 
-                      className="w-full h-100 object-fit-cover opacity-80" 
-                      alt={enrollment.course?.title}
-                    />
+                    <div className="w-full h-100 bg-gradient-to-br from-indigo-900 to-purple-900 d-flex align-items-center justify-content-center" style={{ height: '180px' }}>
+                      <i className="bi bi-display text-white-10 fs-1"></i>
+                    </div>
                     <div className="position-absolute top-0 start-0 m-4">
                       <span className="badge bg-primary bg-opacity-20 backdrop-blur text-primary border border-primary border-opacity-20 px-3 py-2 text-xs">
                         {enrollment.course?.category}

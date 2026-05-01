@@ -120,14 +120,9 @@ const CourseDetail = () => {
             
             <Col lg={5} className="d-none d-lg-block">
               <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="glass-surface p-2 shadow-2xl rounded-3xl border-glass">
-                <img 
-                  src={course.thumbnail && course.thumbnail !== 'no-photo.jpg' 
-                        ? (course.thumbnail.startsWith('http') ? course.thumbnail : `${import.meta.env.VITE_API_URL}${course.thumbnail}`) 
-                        : `https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80`} 
-                  className="w-full rounded-2xl opacity-80"
-                  style={{ height: '360px', objectFit: 'cover' }}
-                  alt={course.title}
-                />
+                <div className="w-full rounded-2xl bg-gradient-to-br from-indigo-900 to-slate-900 d-flex align-items-center justify-content-center" style={{ height: '360px' }}>
+                   <i className="bi bi-mortarboard text-white-10 display-1"></i>
+                </div>
               </motion.div>
             </Col>
           </Row>

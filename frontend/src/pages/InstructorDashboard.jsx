@@ -150,10 +150,9 @@ const InstructorDashboard = () => {
                   className="card stat-card-premium h-100 border-0 d-flex flex-column"
                 >
                   <div className="position-relative overflow-hidden rounded-t-xl" style={{ height: '180px' }}>
-                    <img 
-                      src={course.thumbnail && course.thumbnail !== 'no-photo.jpg' ? (course.thumbnail.startsWith('http') ? course.thumbnail : `${import.meta.env.VITE_API_URL}${course.thumbnail}`) : `https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=600&q=80`} 
-                      className="w-full h-100 object-fit-cover opacity-60" alt={course.title} 
-                    />
+                    <div className="w-full h-100 bg-gradient-to-br from-slate-800 to-slate-900 d-flex align-items-center justify-content-center" style={{ height: '180px' }}>
+                      <i className="bi bi-layers text-white-10 fs-1"></i>
+                    </div>
                     <div className="position-absolute top-0 end-0 m-4">
                       <span className={`badge ${course.status === 'published' ? 'bg-success' : 'bg-warning'} bg-opacity-20 backdrop-blur border border-white border-opacity-10 px-3 py-2 text-xs text-uppercase fw-bold`}>
                         {course.status}

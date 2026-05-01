@@ -1,4 +1,14 @@
 require('dotenv').config();
+
+// Global Error Listeners
+process.on("uncaughtException", (err) => {
+  console.log("Uncaught Exception:", err);
+});
+
+process.on("unhandledRejection", (err) => {
+  console.log("Unhandled Rejection:", err);
+});
+
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -15,7 +25,10 @@ connectDB();
 // 🛠️ Global Middleware
 app.use(express.json());
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: [
+    process.env.FRONTEND_URL ? process.env.FRONTEND_URL.replace(/\/$/, "") : 'http://localhost:5173',
+    'http://localhost:3000'
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -52,19 +65,14 @@ app.use((req, res, next) => {
 app.use(errorHandler);
 
 // 🏗️ Startup Sequence
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
-const startServer = async () => {
+const startServer = () => {
   try {
-    // Run Auto-Seeding
-    await seedAdmin();
+    app.listen(PORT);
     
-    app.listen(PORT, () => {
-      console.log(`
-      🚀 Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}
-      📡 API Base URL: http://localhost:${PORT}/api
-      `);
-    });
+    // Run Auto-Seeding asynchronously (Non-blocking)
+    seedAdmin();
   } catch (error) {
     console.error('❌ Critical Startup Failure:', error.message);
     process.exit(1);

@@ -57,19 +57,19 @@ const Navbar = () => {
             {user ? (
               <div className="d-flex align-items-center gap-6">
                 <Link to={getDashboardPath(user.role)} className="text-xs fw-black text-white text-decoration-none px-2 tracking-widest text-uppercase hover-primary transition-smooth">
-                  DASHBOARD
+                  Go to Dashboard
                 </Link>
                 <button onClick={handleLogout} className="btn btn-ghost border-glass text-muted text-xs fw-black px-6 py-2 hover-bg-glass">
-                  LOG OUT
+                  Logout
                 </button>
               </div>
             ) : (
               <div className="d-flex align-items-center gap-6">
                 <Link to="/login" className="text-sm fw-black text-white text-decoration-none hover-primary px-2 tracking-widest text-uppercase transition-smooth">
-                  LOG IN
+                  Login
                 </Link>
                 <Link to="/register" className="btn-premium py-2.5 px-8 text-xs fw-black shadow-glow text-decoration-none">
-                  SIGN UP
+                  Get Started
                 </Link>
               </div>
             )}

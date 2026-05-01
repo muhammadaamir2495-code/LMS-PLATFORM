@@ -32,17 +32,17 @@ const Footer = () => {
           <Col lg={2} md={6}>
             <h6 className="fw-black mb-6 text-uppercase tracking-widest text-white text-xs">Quick Links</h6>
             <ul className="list-unstyled d-flex flex-column gap-4">
-              <li><Link to="/" className="text-dim text-xs fw-bold tracking-wide text-decoration-none hover-white transition-smooth">HOME</Link></li>
-              <li><Link to="/courses" className="text-dim text-xs fw-bold tracking-wide text-decoration-none hover-white transition-smooth">COURSES</Link></li>
-              <li><Link to="/pricing" className="text-dim text-xs fw-bold tracking-wide text-decoration-none hover-white transition-smooth">PRICES</Link></li>
+              <li><Link to="/" className="text-dim text-xs fw-bold tracking-wide text-decoration-none hover-white transition-smooth">Home</Link></li>
+              <li><Link to="/courses" className="text-dim text-xs fw-bold tracking-wide text-decoration-none hover-white transition-smooth">Courses</Link></li>
+              <li><Link to="/pricing" className="text-dim text-xs fw-bold tracking-wide text-decoration-none hover-white transition-smooth">Pricing</Link></li>
             </ul>
           </Col>
           <Col lg={3} md={6}>
             <h6 className="fw-black mb-6 text-uppercase tracking-widest text-white text-xs">Categories</h6>
             <ul className="list-unstyled d-flex flex-column gap-4">
-              <li><Link to="/courses" className="text-dim text-xs fw-bold tracking-wide text-decoration-none hover-white transition-smooth">WEB DEVELOPMENT</Link></li>
-              <li><Link to="/courses" className="text-dim text-xs fw-bold tracking-wide text-decoration-none hover-white transition-smooth">DATA SCIENCE</Link></li>
-              <li><Link to="/courses" className="text-dim text-xs fw-bold tracking-wide text-decoration-none hover-white transition-smooth">UI/UX DESIGN</Link></li>
+              <li><Link to="/courses" className="text-dim text-xs fw-bold tracking-wide text-decoration-none hover-white transition-smooth">Web Design</Link></li>
+              <li><Link to="/courses" className="text-dim text-xs fw-bold tracking-wide text-decoration-none hover-white transition-smooth">Data Tech</Link></li>
+              <li><Link to="/courses" className="text-dim text-xs fw-bold tracking-wide text-decoration-none hover-white transition-smooth">User Experience</Link></li>
             </ul>
           </Col>
           <Col lg={3} md={6}>
@@ -62,9 +62,9 @@ const Footer = () => {
         <div className="d-flex flex-column flex-md-row justify-content-between align-items-center pt-8 border-top border-glass">
           <small className="text-dim fw-medium mb-4 mb-md-0 tracking-wide">&copy; {new Date().getFullYear()} NexusLMS Inc. All rights reserved. Made for students.</small>
           <div className="d-flex gap-8 align-items-center">
-            <small><Link to="#" className="text-dim text-xs fw-bold tracking-wide text-decoration-none hover-white transition-smooth">PRIVACY POLICY</Link></small>
+            <small><Link to="#" className="text-dim text-xs fw-bold tracking-wide text-decoration-none hover-white transition-smooth">Privacy</Link></small>
             <span className="text-white-10">|</span>
-            <small><Link to="#" className="text-dim text-xs fw-bold tracking-wide text-decoration-none hover-white transition-smooth">TERMS OF USE</Link></small>
+            <small><Link to="#" className="text-dim text-xs fw-bold tracking-wide text-decoration-none hover-white transition-smooth">Terms</Link></small>
           </div>
         </div>
       </Container>

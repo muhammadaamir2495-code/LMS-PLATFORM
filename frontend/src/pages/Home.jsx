@@ -109,11 +109,9 @@ const Home = () => {
                         <div className="bg-white-5 px-4 py-1 rounded-full text-xs text-dim border-glass">nexuslms.io/terminal</div>
                         <div className="opacity-0 w-12"></div>
                       </div>
-                      <img 
-                        src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80" 
-                        alt="Dashboard Telemetry" 
-                        className="w-full h-auto opacity-90 grayscale-20 hover-none transition-smooth"
-                      />
+                      <div className="w-full h-100 bg-gradient-to-br from-indigo-900 to-purple-900 d-flex align-items-center justify-content-center" style={{ minHeight: '400px' }}>
+                        <i className="bi bi-display text-white-10 display-1"></i>
+                      </div>
                     </div>
                   </div>
                   {/* Background Neural Glow */}
@@ -206,11 +204,9 @@ const Home = () => {
                 whileHover={{ rotateY: -8, rotateX: 5 }}
                 className="glass-surface p-4 rounded-4xl shadow-glow-xl transition-smooth"
               >
-                <img 
-                  src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80" 
-                  className="rounded-3xl w-full h-auto opacity-70 grayscale-20 hover-none transition-smooth" 
-                  alt="Development"
-                />
+                <div className="w-full h-100 bg-gradient-to-tr from-slate-800 to-slate-900 rounded-3xl d-flex align-items-center justify-content-center" style={{ minHeight: '300px' }}>
+                   <i className="bi bi-code-square text-white-10 display-2"></i>
+                </div>
               </motion.div>
             </Col>
           </Row>
@@ -238,7 +234,9 @@ const Home = () => {
                       <div className="bg-warning opacity-50 rounded-full" style={{ width: 12, height: 12 }}></div>
                       <div className="bg-success opacity-50 rounded-full" style={{ width: 12, height: 12 }}></div>
                     </div>
-                    <img src={d.img} className="w-full h-auto opacity-40 grayscale hover-none transition-smooth" style={{ height: '360px', objectFit: 'cover' }} alt={d.role} />
+                    <div className="w-full h-auto bg-gradient-to-b from-gray-800 to-gray-900 d-flex align-items-center justify-content-center" style={{ height: '360px' }}>
+                      <i className="bi bi-cpu text-white-5 display-3"></i>
+                    </div>
                   </div>
                   <h4 className="fw-black text-white tracking-tight fs-3">{d.role} Terminal</h4>
                 </div>
