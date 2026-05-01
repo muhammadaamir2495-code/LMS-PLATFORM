@@ -22,12 +22,18 @@ const app = express();
 // 🔌 Database Connection
 connectDB();
 
+// 🔐 Production Secret Check
+if (!process.env.JWT_SECRET) {
+  console.log("⚠️ WARNING: JWT_SECRET is missing from environment variables!");
+}
+
 // 🛠️ Global Middleware
 app.use(express.json());
 app.use(cors({
   origin: [
     process.env.FRONTEND_URL ? process.env.FRONTEND_URL.replace(/\/$/, "") : 'http://localhost:5173',
-    'http://localhost:3000'
+    'http://localhost:3000',
+    'https://your-backend.up.railway.app'
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
