@@ -1,5 +1,20 @@
 const mongoose = require('mongoose');
 
+const lessonSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  content: { type: String }, // For text/markdown content
+  videoUrl: { type: String },
+  pdfUrl: { type: String },
+  duration: { type: Number, default: 0 }, // In minutes
+  isFree: { type: Boolean, default: false }
+});
+
+const moduleSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  order: { type: Number, default: 0 },
+  lessons: [lessonSchema]
+});
+
 const courseSchema = new mongoose.Schema(
   {
     title: {
@@ -36,6 +51,8 @@ const courseSchema = new mongoose.Schema(
       enum: ['draft', 'published'],
       default: 'draft',
     },
+    // 🚀 NEW: Hierarchical Content Structure
+    modules: [moduleSchema]
   },
   {
     timestamps: true,
@@ -52,11 +69,9 @@ courseSchema.virtual('enrollmentsCount', {
   count: true
 });
 
-// Optimize queries by instructor
+// Optimize queries
 courseSchema.index({ instructor: 1 });
-// Optimize category filtering
 courseSchema.index({ category: 1 });
-// Optimize status filtering
 courseSchema.index({ status: 1 });
 
 module.exports = mongoose.model('Course', courseSchema);

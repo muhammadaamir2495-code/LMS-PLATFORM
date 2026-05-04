@@ -63,27 +63,27 @@ const Home = () => {
           <Row className="justify-content-center text-center">
             <Col lg={11} xl={10}>
               <motion.div initial="hidden" animate="visible" variants={containerVariants}>
-                <motion.div variants={itemVariants} className="d-inline-flex align-items-center bg-white-5 border-glass rounded-full px-6 py-2.5 mb-10 backdrop-blur shadow-glow-sm mt-10">
-                  <span className="text-xs fw-black text-primary tracking-widest uppercase d-flex align-items-center gap-2">
+                <motion.div variants={itemVariants} className="d-inline-flex align-items-center bg-white-5 border-glass rounded-full px-4 px-md-6 py-2.5 mb-8 mb-md-10 backdrop-blur shadow-glow-sm mt-6 mt-md-10">
+                  <span className="text-xs fw-black text-primary tracking-widest uppercase d-flex align-items-center gap-2" style={{ fontSize: 'clamp(0.6rem, 2vw, 0.75rem)' }}>
                     <span className="d-inline-block w-2 h-2 rounded-circle bg-primary pulse-dot"></span>
                     Nexus LMS • Built for the Future
                   </span>
                 </motion.div>
                 
-                <motion.h1 variants={itemVariants} className="display-1 fw-black mb-8 text-white tracking-tightest leading-none">
+                <motion.h1 variants={itemVariants} className="display-1 fw-black mb-6 mb-md-8 text-white tracking-tightest leading-none">
                   Modern Learning <br /> <span className="text-gradient-premium">for Everyone.</span>
                 </motion.h1>
                 
-                <motion.p variants={itemVariants} className="fs-4 text-muted mx-auto mb-14 fw-medium leading-relaxed" style={{ maxWidth: '720px', opacity: 0.8 }}>
+                <motion.p variants={itemVariants} className="fs-5 fs-md-4 text-muted mx-auto mb-10 mb-md-14 fw-medium leading-relaxed" style={{ maxWidth: '720px', opacity: 0.8 }}>
                   The simple way for schools to teach and students to learn. <br className="d-none d-md-block" /> 
                   Create courses, grow your skills, and track your progress effortlessly.
                 </motion.p>
                 
-                <motion.div variants={itemVariants} className="d-flex justify-content-center align-items-center gap-5 mb-28">
-                  <Link to="/register" className="btn-premium px-14 py-4 fs-5 shadow-glow-lg transition-all hover-translate-y">
+                <motion.div variants={itemVariants} className="d-flex flex-column flex-sm-row justify-content-center align-items-center gap-4 gap-md-5 mb-20 mb-md-28">
+                  <Link to="/register" className="btn-premium px-8 px-md-14 py-3 py-md-4 fs-6 fs-md-5 shadow-glow-lg transition-all hover-translate-y w-100 w-sm-auto">
                     Get Started
                   </Link>
-                  <Link to="/courses" className="btn btn-ghost border-glass text-white px-14 py-4 fs-5 backdrop-blur hover-bg-glass transition-all">
+                  <Link to="/courses" className="btn btn-ghost border-glass text-white px-8 px-md-14 py-3 py-md-4 fs-6 fs-md-5 backdrop-blur hover-bg-glass transition-all w-100 w-sm-auto">
                     Browse Courses
                   </Link>
                 </motion.div>

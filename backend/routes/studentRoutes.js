@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { protect, authorize } = require('../middleware/authMiddleware');
-const { getMyCourses, enrollInCourse, updateProgress } = require('../controllers/enrollmentController');
+const { getMyCourses, enrollCourse, updateProgress } = require('../controllers/enrollmentController');
 
 // All student routes require authentication and student role
 router.use(protect);
@@ -13,7 +13,7 @@ router.get('/my-courses', getMyCourses);
 
 // @desc    Enroll in a new course
 // @route   POST /api/student/enroll/:courseId
-router.post('/enroll/:courseId', enrollInCourse);
+router.post('/enroll/:courseId', enrollCourse);
 
 // @desc    Update progress in a course
 // @route   PUT /api/student/progress/:courseId

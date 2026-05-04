@@ -11,17 +11,20 @@ const {
 const { protect, authorize, loadUser } = require('../middleware/authMiddleware');
 const upload = require('../middleware/uploadMiddleware');
 
+const validate = require('../middleware/validateMiddleware');
+const { courseSchema } = require('../utils/validators');
+
 const router = express.Router();
 
 router
   .route('/')
   .get(loadUser, getCourses)
-  .post(protect, authorize('instructor', 'admin'), upload.single('thumbnail'), createCourse);
+  .post(protect, authorize('instructor', 'admin'), upload.single('thumbnail'), validate(courseSchema), createCourse);
 
 router
   .route('/:id')
   .get(loadUser, getCourse)
-  .put(protect, authorize('instructor', 'admin'), upload.single('thumbnail'), updateCourse)
+  .put(protect, authorize('instructor', 'admin'), upload.single('thumbnail'), validate(courseSchema), updateCourse)
   .delete(protect, authorize('instructor', 'admin'), deleteCourse);
 
 router

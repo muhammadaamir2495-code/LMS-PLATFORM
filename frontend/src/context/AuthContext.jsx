@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useCallback, useMemo } from 'react';
+import React, { createContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import api from '../services/api';
 
@@ -11,16 +11,49 @@ export const AuthProvider = ({ children }) => {
     error: null
   });
 
+  // 🎯 Persistent timer reference to prevent duplicates
+  const logoutTimerRef = useRef(null);
+
+  const clearLogoutTimer = useCallback(() => {
+    if (logoutTimerRef.current) {
+      clearTimeout(logoutTimerRef.current);
+      logoutTimerRef.current = null;
+    }
+  }, []);
+
   const logout = useCallback(() => {
+    clearLogoutTimer();
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     setAuthState({ user: null, loading: false, error: null });
-  }, []);
+  }, [clearLogoutTimer]);
 
-  /**
-   * CENTRALIZED ROLE ROUTING LOGIC
-   * Single source of truth for dashboard mapping
-   */
+  const startLogoutTimer = useCallback((token) => {
+    clearLogoutTimer(); 
+    try {
+      const decoded = jwtDecode(token);
+      
+      // 🛡️ Enterprise Guard: Validate expiry existence
+      if (!decoded.exp) throw new Error("Invalid Token Structure");
+
+      const timeLeft = (decoded.exp * 1000) - Date.now();
+
+      // 🛡️ Enterprise Guard: Clock drift or immediate expiry protection
+      // If expired or time is suspiciously far in future (invalid sync)
+      if (timeLeft <= 0 || timeLeft > 30 * 24 * 60 * 60 * 1000) { 
+        logout();
+        return;
+      }
+
+      logoutTimerRef.current = setTimeout(() => {
+        logout();
+        window.location.href = '/login?session=expired';
+      }, timeLeft);
+    } catch (error) {
+      logout();
+    }
+  }, [logout, clearLogoutTimer]);
+
   const getDashboardPath = useCallback((role) => {
     const normalizedRole = role?.toLowerCase();
     switch (normalizedRole) {
@@ -38,33 +71,34 @@ export const AuthProvider = ({ children }) => {
       
       if (token && savedUser) {
         try {
-          const decoded = jwtDecode(token);
-          if (decoded.exp * 1000 < Date.now()) {
-            logout();
-          } else {
-            const userInfo = JSON.parse(savedUser);
-            // Ensure role exists to prevent routing loops
-            if (!userInfo.role) throw new Error("Corrupted User Profile");
-            setAuthState({ user: userInfo, loading: false, error: null });
-            return;
-          }
+          const userInfo = JSON.parse(savedUser);
+          if (!userInfo.role) throw new Error("Corrupted Profile");
+          
+          // 🛡️ Safety First: Start timer ONLY if validation passes
+          setAuthState({ user: userInfo, loading: false, error: null });
+          startLogoutTimer(token);
         } catch (error) {
           logout();
+          setAuthState(prev => ({ ...prev, loading: false }));
         }
+      } else {
+        setAuthState(prev => ({ ...prev, loading: false }));
       }
-      setAuthState(prev => ({ ...prev, loading: false }));
     };
 
     initializeAuth();
 
     const handleUnauthorized = () => {
       logout();
-      window.location.href = '/login';
+      window.location.href = '/login?session=expired';
     };
 
     window.addEventListener('auth-unauthorized', handleUnauthorized);
-    return () => window.removeEventListener('auth-unauthorized', handleUnauthorized);
-  }, [logout]);
+    return () => {
+      window.removeEventListener('auth-unauthorized', handleUnauthorized);
+      clearLogoutTimer();
+    };
+  }, [logout, startLogoutTimer, clearLogoutTimer]);
 
   const login = async (credentials) => {
     try {
@@ -75,6 +109,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('user', JSON.stringify(user));
       
       setAuthState({ user, loading: false, error: null });
+      startLogoutTimer(token);
       
       return { success: true, user };
     } catch (error) {
@@ -93,6 +128,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('user', JSON.stringify(user));
       
       setAuthState({ user, loading: false, error: null });
+      startLogoutTimer(token);
       
       return { success: true, user };
     } catch (error) {
@@ -110,7 +146,7 @@ export const AuthProvider = ({ children }) => {
     login,
     register,
     logout,
-    getDashboardPath // Centralized helper
+    getDashboardPath
   }), [authState.user, authState.loading, authState.error, logout, getDashboardPath]);
 
   return (

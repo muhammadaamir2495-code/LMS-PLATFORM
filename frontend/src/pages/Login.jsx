@@ -72,15 +72,15 @@ const Login = () => {
         </div>
 
         {/* Right Form Panel */}
-        <div className="auth-right-panel flex-grow-1 d-flex align-items-center justify-content-center p-6 p-lg-12">
+        <div className="auth-right-panel flex-grow-1 d-flex align-items-center justify-content-center p-4 p-md-6 p-lg-12">
           <motion.div 
-            className="glass-surface p-10 p-lg-16 shadow-2xl"
-            style={{ width: '100%', maxWidth: '520px', borderRadius: '32px' }}
+            className="glass-surface p-6 p-md-10 p-lg-16 shadow-2xl"
+            style={{ width: '100%', maxWidth: '520px', borderRadius: 'clamp(16px, 4vw, 32px)' }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="text-center mb-12">
+            <div className="text-center mb-8 mb-md-12">
               <h2 className="text-white fw-black mb-2 display-6 tracking-tight">Welcome Back</h2>
               <p className="text-muted small fw-medium tracking-wide">Log in to your account to continue.</p>
             </div>

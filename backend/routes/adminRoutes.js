@@ -44,18 +44,33 @@ router.delete('/courses/:id', async (req, res) => {
   }
 });
 
-// @desc    Get Recent Activity (Mock)
+const Activity = require('../models/Activity');
+
+// ...
+
+// @desc    Get Recent Activity (Real)
 // @route   GET /api/admin/activity
 router.get('/activity', async (req, res) => {
-  // In a real app, you'd have an Activity model. Here we mock it from recent enrollments/users.
-  res.json({
-    success: true,
-    data: [
-      { id: 1, type: 'user', message: 'New student registered', time: '2 mins ago' },
-      { id: 2, type: 'course', message: 'New course: Advanced React published', time: '1 hour ago' },
-      { id: 3, type: 'enrollment', message: 'Student enrolled in Figma Masterclass', time: '3 hours ago' },
-    ]
-  });
+  try {
+    const activity = await Activity.find()
+      .populate('user', 'name role')
+      .sort({ createdAt: -1 })
+      .limit(20);
+
+    const formattedActivity = activity.map(act => ({
+      id: act._id,
+      type: act.type,
+      message: act.message,
+      time: new Date(act.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    }));
+
+    res.json({
+      success: true,
+      data: formattedActivity
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Failed to fetch activity logs' });
+  }
 });
 
 module.exports = router;

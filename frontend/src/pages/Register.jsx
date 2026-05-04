@@ -23,34 +23,43 @@ const Register = () => {
     nameRef.current?.focus();
   }, []);
 
+  const [errors, setErrors] = useState({});
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (errors[e.target.name]) setErrors({ ...errors, [e.target.name]: null });
+  };
+
+  const validate = () => {
+    const newErrors = {};
+    if (!formData.name.trim()) newErrors.name = 'Full name is required';
+    if (!formData.email.includes('@')) newErrors.email = 'Valid email is required';
+    if (formData.password.length < 6) newErrors.password = 'Min 6 characters';
+    if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = 'Passwords do not match';
+    return newErrors;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    
-    if (formData.password !== formData.confirmPassword) {
-      toast.error('Error: Passwords do not match');
-      setLoading(false);
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
       return;
     }
 
+    setLoading(true);
     try {
       const { confirmPassword, ...dataToSend } = formData;
       const res = await register(dataToSend);
       if (res.success) {
-        toast.success('Account Created');
+        toast.success('Sequence Complete: Account Initialized');
         const role = res.user.role;
-        if (role === 'admin') navigate('/admin-dashboard');
-        else if (role === 'instructor') navigate('/instructor-dashboard');
-        else navigate('/student-dashboard');
+        navigate(role === 'admin' ? '/admin-dashboard' : role === 'instructor' ? '/instructor-dashboard' : '/student-dashboard');
       } else {
-        toast.error(res.message || 'Could not create account');
+        toast.error(res.message || 'Access Denied: Initialization Failure');
       }
     } catch (err) {
-      toast.error('Server error, please try again');
+      // Interceptor handles the toast message
     } finally {
       setLoading(false);
     }
@@ -82,15 +91,15 @@ const Register = () => {
         </div>
 
         {/* Right Form Panel */}
-        <div className="auth-right-panel flex-grow-1 d-flex align-items-center justify-content-center p-6 p-lg-12">
+        <div className="auth-right-panel flex-grow-1 d-flex align-items-center justify-content-center p-4 p-md-6 p-lg-12">
           <motion.div 
-            className="glass-surface p-10 p-lg-12 shadow-2xl"
-            style={{ width: '100%', maxWidth: '580px', borderRadius: '32px' }}
+            className="glass-surface p-6 p-md-10 p-lg-12 shadow-2xl"
+            style={{ width: '100%', maxWidth: '580px', borderRadius: 'clamp(16px, 4vw, 32px)' }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="text-center mb-10">
+            <div className="text-center mb-8 mb-md-10">
               <h2 className="text-white fw-black mb-2 display-6 tracking-tight">Get Started</h2>
               <p className="text-muted small fw-medium tracking-wide">Join 10,000+ learners worldwide.</p>
             </div>
@@ -110,6 +119,7 @@ const Register = () => {
                     placeholder="e.g. John Doe"
                     required 
                   />
+                  {errors.name && <div className="text-danger text-xs mt-1 fw-bold">{errors.name}</div>}
                 </div>
               </Form.Group>
 
@@ -118,7 +128,7 @@ const Register = () => {
                 <div className="position-relative">
                   <i className="bi bi-envelope position-absolute top-50 start-0 translate-middle-y ms-4 text-dim"></i>
                   <Form.Control 
-                    className="form-control bg-white-5 border-glass py-3 ps-12 text-white text-xs"
+                    className={`form-control bg-white-5 border-glass py-3 ps-12 text-white text-xs ${errors.email ? 'border-danger' : ''}`}
                     type="email" 
                     name="email" 
                     value={formData.email} 
@@ -126,6 +136,7 @@ const Register = () => {
                     placeholder="name@example.com"
                     required 
                   />
+                  {errors.email && <div className="text-danger text-xs mt-1 fw-bold">{errors.email}</div>}
                 </div>
               </Form.Group>
 
@@ -136,7 +147,7 @@ const Register = () => {
                     <div className="position-relative">
                       <i className="bi bi-lock position-absolute top-50 start-0 translate-middle-y ms-4 text-dim"></i>
                       <Form.Control 
-                        className="form-control bg-white-5 border-glass py-3 ps-12 text-white text-xs"
+                        className={`form-control bg-white-5 border-glass py-3 ps-12 text-white text-xs ${errors.password ? 'border-danger' : ''}`}
                         type={showPassword ? 'text' : 'password'} 
                         name="password" 
                         value={formData.password} 
@@ -145,6 +156,7 @@ const Register = () => {
                         required 
                         minLength="6"
                       />
+                      {errors.password && <div className="text-danger text-xs mt-1 fw-bold">{errors.password}</div>}
                     </div>
                   </Form.Group>
                 </Col>
@@ -154,7 +166,7 @@ const Register = () => {
                     <div className="position-relative">
                       <i className="bi bi-shield-check position-absolute top-50 start-0 translate-middle-y ms-4 text-dim"></i>
                       <Form.Control 
-                        className="form-control bg-white-5 border-glass py-3 ps-12 text-white text-xs"
+                        className={`form-control bg-white-5 border-glass py-3 ps-12 text-white text-xs ${errors.confirmPassword ? 'border-danger' : ''}`}
                         type={showPassword ? 'text' : 'password'} 
                         name="confirmPassword" 
                         value={formData.confirmPassword} 
@@ -162,6 +174,7 @@ const Register = () => {
                         placeholder="••••••••"
                         required 
                       />
+                      {errors.confirmPassword && <div className="text-danger text-xs mt-1 fw-bold">{errors.confirmPassword}</div>}
                     </div>
                   </Form.Group>
                 </Col>

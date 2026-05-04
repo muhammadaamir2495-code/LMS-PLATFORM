@@ -25,9 +25,9 @@ const CourseDetail = () => {
         
         if (isAuthenticated && user?.role === 'student') {
           try {
-            const enrollmentsRes = await api.get('/my-courses');
+            const enrollmentsRes = await api.get('/student/my-courses');
             const isEnrolled = enrollmentsRes.data.data.some(
-              (enrollment) => enrollment.course._id === id || enrollment.course === id
+              (enrollment) => enrollment.course?._id === id || enrollment.course === id
             );
             if (isEnrolled) setEnrollSuccess(true);
           } catch (err) {
@@ -50,7 +50,7 @@ const CourseDetail = () => {
     }
     setEnrollLoading(true);
     try {
-      await api.post('/enroll', { courseId: id });
+      await api.post(`/student/enroll/${id}`);
       setEnrollSuccess(true);
       toast.success('Enrollment successful!');
     } catch (err) {

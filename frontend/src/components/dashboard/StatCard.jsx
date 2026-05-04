@@ -52,6 +52,12 @@ const StatCard = ({ label, value, icon, trend, subLabel, color = "var(--primary)
         />
       </svg>
     </div>
+    <style dangerouslySetInnerHTML={{ __html: `
+      @media (max-width: 576px) {
+        .stat-card-premium .display-6 { font-size: 1.5rem !important; }
+        .stat-card-premium .text-xs { font-size: 0.65rem !important; }
+      }
+    `}} />
   </motion.div>
 );
 

@@ -102,25 +102,25 @@ const DashboardLayout = ({ children }) => {
 
       {/* Mobile Sidebar */}
       <Offcanvas show={mobileOpen} onHide={() => setMobileOpen(false)} className="bg-app text-white border-glass" style={{ width: '280px' }}>
-        <Offcanvas.Body className="p-4 overflow-hidden">
+        <Offcanvas.Body className="p-4 overflow-y-auto custom-scrollbar">
           <SidebarContent />
         </Offcanvas.Body>
       </Offcanvas>
 
       {/* Main Framework */}
-      <div className="flex-grow-1 d-flex flex-column min-vh-100">
+      <div className="flex-grow-1 d-flex flex-column min-vh-100 overflow-hidden">
         {/* Header */}
-        <header className="glass-surface sticky-top p-4 d-flex align-items-center justify-content-between gap-8" style={{ borderTop: 'none', borderLeft: 'none', borderRight: 'none', zIndex: 900 }}>
-          <div className="d-flex align-items-center gap-4 flex-grow-1">
+        <header className="glass-surface sticky-top p-3 p-md-4 d-flex align-items-center justify-content-between gap-3 gap-md-8" style={{ borderTop: 'none', borderLeft: 'none', borderRight: 'none', zIndex: 900 }}>
+          <div className="d-flex align-items-center gap-3 gap-md-4 flex-grow-1">
             <button className="d-lg-none btn btn-ghost text-white p-0 border-0" onClick={() => setMobileOpen(true)}>
               <i className="bi bi-list fs-3"></i>
             </button>
-            <div className="position-relative d-none d-md-block" style={{ maxWidth: '400px', width: '100%' }}>
+            <div className="position-relative d-none d-sm-block" style={{ maxWidth: '400px', width: '100%' }}>
               <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-dim"></i>
               <input 
                 type="text" 
                 className="form-control bg-white-5 border-glass py-2 ps-10 text-xs text-white" 
-                placeholder="Search for courses..." 
+                placeholder="Search..." 
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
                     navigate(`/courses?search=${e.target.value}`);
@@ -130,12 +130,12 @@ const DashboardLayout = ({ children }) => {
             </div>
           </div>
           
-          <div className="d-flex align-items-center gap-6">
-            <div className="d-flex align-items-center gap-2">
+          <div className="d-flex align-items-center gap-3 gap-md-6">
+            <div className="d-none d-md-flex align-items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-success shadow-success"></div>
               <span className="text-xs fw-bold text-success tracking-widest text-uppercase">System Active</span>
             </div>
-            <div className="v-divider"></div>
+            <div className="v-divider d-none d-md-block"></div>
             <button className="btn btn-ghost text-white p-0 position-relative border-0">
               <i className="bi bi-bell fs-5"></i>
               <span className="position-absolute top-0 start-100 translate-middle p-1 bg-primary border border-2 border-app rounded-circle"></span>
@@ -144,7 +144,7 @@ const DashboardLayout = ({ children }) => {
         </header>
 
         {/* Dynamic Content Surface */}
-        <main className="dashboard-content flex-grow-1">
+        <main className="dashboard-content flex-grow-1 overflow-x-hidden">
           <AnimatePresence mode="wait">
             <motion.div
               key={location.pathname}

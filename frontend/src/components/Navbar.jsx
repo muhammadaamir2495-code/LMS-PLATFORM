@@ -47,28 +47,28 @@ const Navbar = () => {
         </BsNavbar.Toggle>
         
         <BsNavbar.Collapse id="navbar-nav">
-          <Nav className="mx-auto gap-4 mt-4 mt-lg-0">
+          <Nav className="mx-auto gap-2 gap-lg-4 mt-4 mt-lg-0 align-items-lg-center">
             <Nav.Link as={Link} to="/about" className={`text-xs fw-bold px-3 tracking-widest text-uppercase ${location.pathname === '/about' ? 'text-primary' : 'text-muted hover-white'}`}>About</Nav.Link>
             <Nav.Link as={Link} to="/courses" className={`text-xs fw-bold px-3 tracking-widest text-uppercase ${location.pathname === '/courses' || location.pathname.includes('/catalog') ? 'text-primary' : 'text-muted hover-white'}`}>Courses</Nav.Link>
             <Nav.Link href="/#pricing" className={`text-xs fw-bold px-3 tracking-widest text-uppercase ${location.hash === '#pricing' ? 'text-primary' : 'text-muted hover-white'}`}>Pricing</Nav.Link>
           </Nav>
           
-          <Nav className="align-items-center gap-6 mt-6 mt-lg-0">
+          <Nav className="align-items-start align-items-lg-center gap-4 gap-lg-6 mt-6 mt-lg-0 flex-column flex-lg-row">
             {user ? (
-              <div className="d-flex align-items-center gap-6">
+              <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-4 gap-lg-6 w-100 w-lg-auto">
                 <Link to={getDashboardPath(user.role)} className="text-xs fw-black text-white text-decoration-none px-2 tracking-widest text-uppercase hover-primary transition-smooth">
                   Go to Dashboard
                 </Link>
-                <button onClick={handleLogout} className="btn btn-ghost border-glass text-muted text-xs fw-black px-6 py-2 hover-bg-glass">
+                <button onClick={handleLogout} className="btn btn-ghost border-glass text-muted text-xs fw-black px-6 py-2 hover-bg-glass w-100 w-lg-auto">
                   Logout
                 </button>
               </div>
             ) : (
-              <div className="d-flex align-items-center gap-6">
+              <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-4 gap-lg-6 w-100 w-lg-auto">
                 <Link to="/login" className="text-sm fw-black text-white text-decoration-none hover-primary px-2 tracking-widest text-uppercase transition-smooth">
                   Login
                 </Link>
-                <Link to="/register" className="btn-premium py-2.5 px-8 text-xs fw-black shadow-glow text-decoration-none">
+                <Link to="/register" className="btn-premium py-2.5 px-8 text-xs fw-black shadow-glow text-decoration-none w-100 w-lg-auto">
                   Get Started
                 </Link>
               </div>

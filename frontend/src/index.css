@@ -40,15 +40,19 @@
   --glass-blur: blur(12px);
   --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Dashboard Config */
+  --sidebar-width: 280px;
 }
 
-/* --- 4. Global Reset --- */
+/* --- 4. Global Reset & Responsiveness --- */
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -60,6 +64,8 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 /* --- 5. Typography System --- */
@@ -71,10 +77,10 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.1;
 }
 
-h1 { font-size: 3.5rem; font-weight: 800; letter-spacing: -0.05em; }
-h2 { font-size: 2.5rem; letter-spacing: -0.04em; }
-h3 { font-size: 1.75rem; }
-h4 { font-size: 1.25rem; }
+h1 { font-size: clamp(2.5rem, 8vw, 3.5rem); font-weight: 800; letter-spacing: -0.05em; }
+h2 { font-size: clamp(1.75rem, 5vw, 2.5rem); letter-spacing: -0.04em; }
+h3 { font-size: clamp(1.5rem, 4vw, 1.75rem); }
+h4 { font-size: clamp(1.125rem, 3vw, 1.25rem); }
 
 .text-muted { color: var(--text-muted) !important; }
 .text-dim { color: var(--text-dim) !important; }
@@ -171,7 +177,7 @@ h4 { font-size: 1.25rem; }
 
 /* Sidebar & Dashboard Layout */
 .sidebar-v2 {
-  width: 280px;
+  width: var(--sidebar-width);
   background: var(--bg-dark);
   border-right: 1px solid var(--border-glass);
   height: 100vh;
@@ -180,6 +186,15 @@ h4 { font-size: 1.25rem; }
   padding: 2rem 0;
   display: flex;
   flex-direction: column;
+  transition: var(--transition);
+}
+
+@media (max-width: 991px) {
+  .sidebar-v2 {
+    position: fixed;
+    z-index: 1050;
+    left: -280px; /* Hidden by default if not using Offcanvas */
+  }
 }
 
 .sidebar-item {
@@ -216,12 +231,23 @@ h4 { font-size: 1.25rem; }
 }
 
 .dashboard-content {
-  padding: 2.5rem;
+  padding: clamp(1rem, 5vw, 2.5rem);
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
-/* Tables */
+/* Tables - Responsive Fix */
+.table-responsive {
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 1rem;
+}
+
 .table-premium {
   width: 100%;
+  min-width: 600px; /* Force scroll on very small screens instead of breaking */
   border-collapse: separate;
   border-spacing: 0 8px;
 }
@@ -233,6 +259,7 @@ h4 { font-size: 1.25rem; }
   font-weight: 700;
   letter-spacing: 0.1em;
   padding: 1rem 1.5rem;
+  white-space: nowrap;
 }
 
 .table-premium tr {
@@ -249,6 +276,7 @@ h4 { font-size: 1.25rem; }
   padding: 1.25rem 1.5rem;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
+  white-space: nowrap;
 }
 
 .table-premium td:first-child {
@@ -281,6 +309,7 @@ h4 { font-size: 1.25rem; }
   color: var(--text-main) !important;
   padding: 0.75rem 1rem !important;
   transition: var(--transition) !important;
+  font-size: 0.875rem !important;
 }
 
 .form-control:focus, .form-control-v2:focus {
@@ -297,7 +326,7 @@ h4 { font-size: 1.25rem; }
 .bg-primary-10 { background: rgba(var(--primary-rgb), 0.1) !important; }
 
 /* Custom Scrollbar */
-::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg-dark); }
 ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
 ::-webkit-scrollbar-thumb:hover { background: #334155; }
@@ -313,14 +342,16 @@ h4 { font-size: 1.25rem; }
 }
 
 /* --- 9. Bootstrap & Layout Fixes --- */
-.container { max-width: 1240px; }
-.section-padding { padding: 80px 0; }
+.container { max-width: 1240px; width: 100%; margin-right: auto; margin-left: auto; padding-right: 1.5rem; padding-left: 1.5rem; }
+.section-padding { padding: clamp(40px, 10vw, 80px) 0; }
 
 .modal-content {
   background: var(--bg-dark) !important;
   border: 1px solid var(--border) !important;
   border-radius: var(--radius-lg) !important;
   box-shadow: var(--shadow-premium) !important;
+  max-width: 95vw;
+  margin: auto;
 }
 
 .progress {
@@ -335,5 +366,28 @@ h4 { font-size: 1.25rem; }
 /* Layout Utilities */
 .gap-6 { gap: 1.5rem !important; }
 .gap-8 { gap: 2rem !important; }
-.p-10 { padding: 2.5rem !important; }
-.mb-16 { margin-bottom: 4rem !important; }
+.p-10 { padding: clamp(1rem, 5vw, 2.5rem) !important; }
+.mb-16 { margin-bottom: clamp(2rem, 8vw, 4rem) !important; }
+.mb-12 { margin-bottom: clamp(1.5rem, 6vw, 3rem) !important; }
+
+/* Grid Responsive Utilities */
+.responsive-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+@media (min-width: 640px) { .responsive-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .responsive-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1280px) { .responsive-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+/* Image Responsiveness */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Card Responsiveness */
+.card {
+  max-width: 100%;
+}
